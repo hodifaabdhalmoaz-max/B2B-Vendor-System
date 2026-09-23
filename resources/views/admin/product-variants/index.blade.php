@@ -122,11 +122,26 @@
                                     @if($variant->inventoryItem)
                                         <div class="text-tiny">{{ __('On hand') }}: {{ $variant->inventoryItem->stock_on_hand }}</div>
                                         <div class="text-tiny">{{ __('Reserved') }}: {{ $variant->inventoryItem->reserved_quantity }}</div>
+                                        <div class="text-tiny">{{ __('Available') }}: {{ $variant->inventoryItem->available_quantity }}</div>
                                     @else
                                         <div class="text-tiny">{{ __('Not initialized') }}</div>
                                     @endif
                                 </td>
                                 <td>
+                                    @if($variant->inventoryItem)
+                                        <form method="POST" action="{{ route('admin.products.variants.inventory.store', [$product, $variant]) }}" class="mb-10">
+                                            @csrf
+                                            <input type="hidden" name="variant_form_id" value="{{ $variant->id }}">
+                                            <input type="hidden" name="idempotency_key" value="{{ old('variant_form_id') == $variant->id ? old('idempotency_key') : (string) \Illuminate\Support\Str::uuid() }}">
+                                            <select name="operation" aria-label="{{ __('Inventory operation') }}">
+                                                <option value="stock_in" @selected(old('variant_form_id') == $variant->id && old('operation') === 'stock_in')>{{ __('Stock In') }}</option>
+                                                <option value="stock_out" @selected(old('variant_form_id') == $variant->id && old('operation') === 'stock_out')>{{ __('Stock Out') }}</option>
+                                                <option value="adjustment" @selected(old('variant_form_id') == $variant->id && old('operation') === 'adjustment')>{{ __('Adjust Physical Stock To') }}</option>
+                                            </select>
+                                            <input type="number" name="quantity" min="0" max="4294967295" step="1" required aria-label="{{ __('Quantity or target on hand') }}" value="{{ old('variant_form_id') == $variant->id ? old('quantity') : '' }}">
+                                            <button class="tf-button" type="submit">{{ __('Update stock') }}</button>
+                                        </form>
+                                    @endif
                                     <div class="list-icon-function">
                                         <button class="item edit border-0 bg-transparent" type="submit" form="variant-update-{{ $variant->id }}" title="{{ __('Save') }}">
                                             <i data-lucide="save" style="width: 16px; height: 16px;"></i>

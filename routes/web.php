@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdPlacementController;
+use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\MarketingCampaignController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductVariantController;
@@ -182,6 +183,7 @@ Route::middleware(['auth', AuthAdmin::class, 'smart.throttle:admin'])->group(fun
     Route::put('/admin/product/update', [AdminController::class, 'product_update'])->name('admin.product.update');
     Route::delete('/admin/product/{id}/delete', [AdminController::class, 'product_delete'])->name('admin.product.delete');
     Route::get('/admin/products/{product}/variants', [ProductVariantController::class, 'index'])->name('admin.products.variants.index');
+    Route::post('/admin/products/{product}/variants/{variant}/inventory', [InventoryController::class, 'store'])->scopeBindings()->name('admin.products.variants.inventory.store');
     Route::get('/admin/products/{product}/variants/create', [ProductVariantController::class, 'create'])->name('admin.products.variants.create');
     Route::post('/admin/products/{product}/variants', [ProductVariantController::class, 'store'])->name('admin.products.variants.store');
     Route::post('/admin/products/{product}/variants/bulk', [ProductVariantController::class, 'bulkStore'])->name('admin.products.variants.bulk-store');

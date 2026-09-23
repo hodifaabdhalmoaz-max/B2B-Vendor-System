@@ -29,6 +29,10 @@ class InventoryItem extends Model
     protected static function booted(): void
     {
         static::saving(function (InventoryItem $inventoryItem): void {
+            if ((int) $inventoryItem->stock_on_hand < 0 || (int) $inventoryItem->reserved_quantity < 0) {
+                throw new InvalidArgumentException('Inventory quantities cannot be negative.');
+            }
+
             if ((int) $inventoryItem->reserved_quantity > (int) $inventoryItem->stock_on_hand) {
                 throw new InvalidArgumentException('Reserved quantity cannot exceed stock on hand.');
             }
@@ -47,7 +51,7 @@ class InventoryItem extends Model
 
     public function availableQuantity(): int
     {
-        return max(0, (int) $this->stock_on_hand - (int) $this->reserved_quantity);
+        return (int) $this->stock_on_hand - (int) $this->reserved_quantity;
     }
 
     public function canReserve(int $quantity): bool

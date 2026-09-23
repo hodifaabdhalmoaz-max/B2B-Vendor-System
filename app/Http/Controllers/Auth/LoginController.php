@@ -67,7 +67,17 @@ class LoginController extends Controller
     {
         $user = $this->findUserByLogin((string) $request->input($this->username()));
 
-        if (! $user || ! $user->is_active || ! Hash::check($request->input('password'), $user->password)) {
+        if (! $user || $user->isLocked()) {
+            return false;
+        }
+
+        if (! Hash::check($request->input('password'), $user->password)) {
+            $user->recordFailedLogin();
+
+            return false;
+        }
+
+        if (! $user->is_active) {
             return false;
         }
 
@@ -87,9 +97,7 @@ class LoginController extends Controller
         $identifier = Str::lower(trim($identifier));
 
         return User::query()
-            ->where('username', $identifier)
-            ->orWhere('email', $identifier)
-            ->orWhere('mobile', $identifier)
+            ->whereLoginIdentifier($identifier)
             ->first();
     }
 

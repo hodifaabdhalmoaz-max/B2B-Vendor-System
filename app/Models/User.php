@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -155,6 +156,43 @@ class User extends Authenticatable
         $this->attributes['email'] = filled($value) ? Str::lower(trim($value)) : null;
     }
 
+    public function setMobileAttribute(?string $value): void
+    {
+        $this->attributes['mobile'] = self::normalizeMobile($value);
+    }
+
+    public static function normalizeMobile(?string $value): ?string
+    {
+        if (! filled($value)) {
+            return null;
+        }
+
+        $normalized = preg_replace('/[\s().-]+/', '', trim((string) $value));
+
+        return filled($normalized) ? $normalized : null;
+    }
+
+    public function scopeWhereLoginIdentifier(Builder $query, string $identifier): Builder
+    {
+        $normalizedIdentifier = Str::lower(trim($identifier));
+        $normalizedMobile = self::normalizeMobile($identifier);
+
+        return $query->where(function (Builder $query) use ($normalizedIdentifier, $normalizedMobile): void {
+            $query
+                ->where('username', $normalizedIdentifier)
+                ->orWhere('email', $normalizedIdentifier);
+
+            if ($normalizedMobile) {
+                $query
+                    ->orWhere('mobile', $normalizedMobile)
+                    ->orWhereRaw(
+                        "replace(replace(replace(replace(replace(mobile, ' ', ''), '-', ''), '(', ''), ')', ''), '.', '') = ?",
+                        [$normalizedMobile]
+                    );
+            }
+        });
+    }
+
     /**
      * Check if user has two factor authentication enabled.
      */
@@ -178,7 +216,6 @@ class User extends Authenticatable
     {
         $this->update([
             'locked_until' => now()->addMinutes($minutes),
-            'failed_login_attempts' => $this->failed_login_attempts + 1,
         ]);
     }
 
@@ -217,10 +254,19 @@ class User extends Authenticatable
             'failed_login_attempts' => $attempts,
         ]);
 
-        // Lock account after 5 failed attempts
-        if ($attempts >= 5) {
-            $this->lockAccount(30);
+        if ($attempts >= $this->maxFailedLoginAttempts()) {
+            $this->lockAccount($this->lockoutMinutes());
         }
+    }
+
+    public function maxFailedLoginAttempts(): int
+    {
+        return (int) config('security.password.max_attempts', 5);
+    }
+
+    public function lockoutMinutes(): int
+    {
+        return max(1, (int) ceil(((int) config('security.password.lockout_duration', 1800)) / 60));
     }
 
     /**

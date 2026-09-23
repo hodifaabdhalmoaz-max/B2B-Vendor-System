@@ -4,12 +4,17 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoginAttemptProtection
 {
+    /*
+     * Legacy middleware alias only. Phase 2.1 keeps it unused because active
+     * login protection is split between Laravel route/request throttles and
+     * the User account lock fields for known accounts.
+     */
+
     /**
      * Handle an incoming request.
      *
@@ -18,16 +23,16 @@ class LoginAttemptProtection
     public function handle(Request $request, Closure $next): Response
     {
         // تطبيق الحماية فقط على صفحات تسجيل الدخول
-        if (!$this->isLoginRoute($request)) {
+        if (! $this->isLoginRoute($request)) {
             return $next($request);
         }
 
         $ip = $request->ip();
         $email = $request->input('email', '');
-        
+
         // مفاتيح التتبع
-        $ipKey = 'login_attempts_ip:' . $ip;
-        $emailKey = 'login_attempts_email:' . $email;
+        $ipKey = 'login_attempts_ip:'.$ip;
+        $emailKey = 'login_attempts_email:'.$email;
         $globalKey = 'login_attempts_global';
 
         // فحص المحاولات حسب IP
@@ -54,7 +59,7 @@ class LoginAttemptProtection
                 $this->recordFailedAttempt($emailKey, 30);
             }
             $this->recordFailedAttempt($globalKey, 5);
-            
+
             // تسجيل في السجلات
             logger()->warning('محاولة تسجيل دخول فاشلة', [
                 'ip' => $ip,
@@ -72,7 +77,7 @@ class LoginAttemptProtection
      */
     protected function isLoginRoute(Request $request): bool
     {
-        return $request->routeIs(['login', 'admin.login']) || 
+        return $request->routeIs(['login', 'admin.login']) ||
                $request->is(['login', 'admin/login']) ||
                ($request->isMethod('POST') && str_contains($request->url(), 'login'));
     }
@@ -99,9 +104,9 @@ class LoginAttemptProtection
     protected function isFailedLoginResponse(Response $response): bool
     {
         // فحص رمز الاستجابة أو المحتوى
-        return $response->getStatusCode() === 422 || 
+        return $response->getStatusCode() === 422 ||
                $response->getStatusCode() === 401 ||
-               (method_exists($response, 'getOriginalContent') && 
+               (method_exists($response, 'getOriginalContent') &&
                 str_contains($response->getOriginalContent(), 'error'));
     }
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -21,6 +22,12 @@ return new class extends Migration
 
     public function down(): void
     {
+        if (Schema::hasColumn('users', 'email') && DB::table('users')->whereNull('email')->exists()) {
+            throw new RuntimeException(
+                'Cannot restore users.email to NOT NULL while NULL-email users exist. Resolve those accounts explicitly before rolling back this migration.'
+            );
+        }
+
         Schema::table('users', function (Blueprint $table) {
             if (Schema::hasColumn('users', 'username')) {
                 $table->dropUnique(['username']);

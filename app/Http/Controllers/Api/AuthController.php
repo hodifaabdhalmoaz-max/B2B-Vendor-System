@@ -100,36 +100,28 @@ class AuthController extends Controller
 
         /** @var \App\Models\User|null $user */
         $user = User::query()
-            ->where('username', $normalizedIdentifier)
-            ->orWhere('email', $normalizedIdentifier)
-            ->orWhere('mobile', $normalizedIdentifier)
+            ->whereLoginIdentifier($normalizedIdentifier)
             ->first();
 
-        if (! $user || ! $user->is_active || ! Hash::check($request->password, $user->password)) {
-            $this->auditService->log('login_failed', [
-                'identifier' => $normalizedIdentifier,
-                'ip' => $request->ip(),
-            ]);
+        if (! $user || $user->isLocked()) {
+            return $this->failedLoginResponse($normalizedIdentifier, $request);
+        }
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid login credentials',
-            ], 401);
+        if (! Hash::check($request->password, $user->password)) {
+            $user->recordFailedLogin();
+
+            return $this->failedLoginResponse($normalizedIdentifier, $request);
+        }
+
+        if (! $user->is_active) {
+            return $this->failedLoginResponse($normalizedIdentifier, $request);
         }
 
         if ($user->isReseller()) {
             $user->loadMissing('resellerProfile');
 
             if (! $user->resellerProfile || ! $user->resellerProfile->isActive()) {
-                $this->auditService->log('login_failed', [
-                    'identifier' => $normalizedIdentifier,
-                    'ip' => $request->ip(),
-                ]);
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Invalid login credentials',
-                ], 401);
+                return $this->failedLoginResponse($normalizedIdentifier, $request);
             }
 
             if ($user->force_password_change) {
@@ -145,6 +137,8 @@ class AuthController extends Controller
         $user->tokens()->delete();
 
         $token = $user->createToken('auth_token')->plainTextToken;
+
+        $user->recordSuccessfulLogin($request->ip());
 
         // Log successful login
         $this->auditService->log('login_success', [
@@ -162,6 +156,19 @@ class AuthController extends Controller
             ],
             'message' => 'Login successful',
         ]);
+    }
+
+    private function failedLoginResponse(string $identifier, Request $request)
+    {
+        $this->auditService->log('login_failed', [
+            'identifier' => $identifier,
+            'ip' => $request->ip(),
+        ]);
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Invalid login credentials',
+        ], 401);
     }
 
     /**

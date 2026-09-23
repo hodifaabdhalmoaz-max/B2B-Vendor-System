@@ -33,6 +33,11 @@ class Color extends Model
             ->withTimestamps();
     }
 
+    public function productVariants()
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
+
     public function productImages()
     {
         return $this->hasMany(ProductColorImage::class);

@@ -79,6 +79,11 @@ class User extends Authenticatable
         return $this->hasMany(Wishlist::class);
     }
 
+    public function resellerProfile()
+    {
+        return $this->hasOne(ResellerProfile::class);
+    }
+
     /**
      * Get the user's addresses.
      */

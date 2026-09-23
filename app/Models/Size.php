@@ -8,20 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Size extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'name',
         'code',
         'description',
         'is_active',
-        'order'
+        'order',
     ];
-    
+
     protected $casts = [
         'is_active' => 'boolean',
         'order' => 'integer',
     ];
-    
+
     /**
      * Get the products for the size.
      */
@@ -31,7 +31,12 @@ class Size extends Model
             ->withPivot('quantity', 'price_adjustment')
             ->withTimestamps();
     }
-    
+
+    public function productVariants()
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
+
     /**
      * Scope a query to only include active sizes.
      */
@@ -39,7 +44,7 @@ class Size extends Model
     {
         return $query->where('is_active', true);
     }
-    
+
     /**
      * Scope a query to order by the order field.
      */

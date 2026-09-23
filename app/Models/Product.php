@@ -70,6 +70,11 @@ class Product extends Model
             ->withTimestamps();
     }
 
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
+
     public function colorImages()
     {
         return $this->hasMany(ProductColorImage::class)->orderBy('sort_order');

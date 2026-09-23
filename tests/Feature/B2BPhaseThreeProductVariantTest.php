@@ -443,6 +443,141 @@ class B2BPhaseThreeProductVariantTest extends TestCase
         $this->assertDatabaseHas('product_variants', ['id' => $variant->id, 'color_id' => $black->id, 'size_id' => $medium->id]);
     }
 
+    public function test_product_price_update_rejects_negative_variant_price_without_persisting_changes(): void
+    {
+        [$product] = $this->productWithDimensions();
+        $variant = $this->createPriceVariant($product, '-80.00');
+        $admin = User::factory()->create(['utype' => User::TYPE_ADMIN]);
+
+        $this->actingAs($admin)->put(route('admin.product.update'), $this->productUpdatePayload($product, [
+            'regular_price' => '50.00', 'quantity' => 999,
+        ]))->assertSessionHasErrors('regular_price');
+
+        $this->assertSame('100.00', $product->fresh()->regular_price);
+        $this->assertNull($product->fresh()->sale_price);
+        $this->assertSame('42', (string) $product->fresh()->quantity);
+        $this->assertSame('-80.00', $variant->fresh()->price_adjustment);
+        $this->assertSame('20.00', $variant->fresh()->effectivePrice());
+    }
+
+    public function test_product_price_update_allows_zero_effective_variant_price(): void
+    {
+        [$product] = $this->productWithDimensions();
+        $variant = $this->createPriceVariant($product, '-80.00');
+        $admin = User::factory()->create(['utype' => User::TYPE_ADMIN]);
+
+        $this->actingAs($admin)->put(route('admin.product.update'), $this->productUpdatePayload($product, [
+            'regular_price' => '80.00',
+        ]))->assertRedirect(route('admin.products'));
+
+        $this->assertSame('80.00', $product->fresh()->current_price);
+        $this->assertSame('0.00', $variant->fresh()->effectivePrice());
+        $this->assertSame(42, $product->fresh()->quantity);
+    }
+
+    public function test_strictest_variant_adjustment_governs_product_price_changes(): void
+    {
+        [$product, $black, $white, $medium] = $this->productWithDimensions();
+        $this->createPriceVariant($product, '10.00', $black->id, $medium->id);
+        $this->createPriceVariant($product, '-30.00', $white->id, $medium->id);
+        $strictest = $this->createPriceVariant($product, '-70.00', $black->id, null);
+        $admin = User::factory()->create(['utype' => User::TYPE_ADMIN]);
+
+        $this->actingAs($admin)->put(route('admin.product.update'), $this->productUpdatePayload($product, [
+            'regular_price' => '69.99',
+        ]))->assertSessionHasErrors('regular_price');
+        $this->assertSame('100.00', $product->fresh()->regular_price);
+
+        $this->actingAs($admin)->put(route('admin.product.update'), $this->productUpdatePayload($product, [
+            'regular_price' => '70.00',
+        ]))->assertRedirect(route('admin.products'));
+        $this->assertSame('0.00', $strictest->fresh()->effectivePrice());
+    }
+
+    public function test_product_price_guard_uses_valid_sale_price(): void
+    {
+        [$product] = $this->productWithDimensions(['sale_price' => '70.00']);
+        $variant = $this->createPriceVariant($product, '-60.00');
+        $admin = User::factory()->create(['utype' => User::TYPE_ADMIN]);
+
+        $this->assertSame('70.00', $product->current_price);
+        $this->actingAs($admin)->put(route('admin.product.update'), $this->productUpdatePayload($product, [
+            'sale_price' => '50.00',
+        ]))->assertSessionHasErrors('sale_price');
+
+        $this->assertSame('70.00', $product->fresh()->sale_price);
+        $this->assertSame('10.00', $variant->fresh()->effectivePrice());
+    }
+
+    public function test_zero_null_and_non_discount_sale_prices_use_regular_price(): void
+    {
+        [$product] = $this->productWithDimensions();
+        $variant = $this->createPriceVariant($product, '-80.00');
+        $admin = User::factory()->create(['utype' => User::TYPE_ADMIN]);
+
+        foreach (['0.00', null, '80.00', '90.00'] as $salePrice) {
+            $this->actingAs($admin)->put(route('admin.product.update'), $this->productUpdatePayload($product->fresh(), [
+                'regular_price' => '80.00', 'sale_price' => $salePrice,
+            ]))->assertRedirect(route('admin.products'));
+
+            $this->assertSame('80.00', $product->fresh()->current_price);
+            $this->assertSame('0.00', $variant->fresh()->effectivePrice());
+        }
+
+        $this->actingAs($admin)->put(route('admin.product.update'), $this->productUpdatePayload($product->fresh(), [
+            'regular_price' => '79.99', 'sale_price' => null,
+        ]))->assertSessionHasErrors('regular_price');
+    }
+
+    public function test_variant_create_and_update_still_reject_negative_prices_and_allow_zero(): void
+    {
+        [$product, $black, , $medium] = $this->productWithDimensions();
+        $service = app(ProductVariantService::class);
+        $variant = $this->createPriceVariant($product, '-100.00', $black->id, $medium->id);
+        $this->assertSame('0.00', $variant->effectivePrice());
+
+        $this->expectValidationExceptionFor(fn () => $this->createPriceVariant($product, '-100.01', null, $medium->id));
+        $this->expectValidationExceptionFor(fn () => $service->updateVariant($product, $variant, [
+            'color_id' => $black->id, 'size_id' => $medium->id,
+            'sku' => $variant->sku, 'price_adjustment' => '-100.01', 'is_active' => true,
+        ]));
+
+        $this->assertSame('-100.00', $variant->fresh()->price_adjustment);
+    }
+
+    public function test_existing_invalid_variant_price_is_visible_and_is_not_rewritten(): void
+    {
+        [$product] = $this->productWithDimensions();
+        $variant = $this->createPriceVariant($product, '-80.00');
+        \Illuminate\Support\Facades\DB::table('product_variants')->where('id', $variant->id)
+            ->update(['price_adjustment' => '-120.00']);
+        $admin = User::factory()->create(['utype' => User::TYPE_ADMIN]);
+
+        $this->assertSame('-20.00', $variant->fresh()->effectivePrice());
+        $this->actingAs($admin)->put(route('admin.product.update'), $this->productUpdatePayload($product, [
+            'regular_price' => '110.00',
+        ]))->assertSessionHasErrors('regular_price');
+        $this->assertSame('100.00', $product->fresh()->regular_price);
+        $this->assertSame('-120.00', $variant->fresh()->price_adjustment);
+
+        $this->actingAs($admin)->put(route('admin.product.update'), $this->productUpdatePayload($product->fresh(), [
+            'name' => 'Price Audit Name', 'sale_price' => null,
+        ]))->assertRedirect(route('admin.products'));
+        $this->assertSame('Price Audit Name', $product->fresh()->name);
+        $this->assertSame('-120.00', $variant->fresh()->price_adjustment);
+    }
+
+    private function createPriceVariant(Product $product, string $adjustment, ?int $colorId = null, ?int $sizeId = null): ProductVariant
+    {
+        return app(ProductVariantService::class)->createVariant($product, [
+            'color_id' => $colorId,
+            'size_id' => $sizeId,
+            'sku' => null,
+            'price_adjustment' => $adjustment,
+            'is_active' => true,
+        ]);
+    }
+
     private function productWithDimensions(array $productOverrides = []): array
     {
         $product = Product::factory()->create(array_merge([

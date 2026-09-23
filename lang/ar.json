@@ -49,6 +49,7 @@
     "Invalid variant combination selected.": "تركيبة المتغير المختارة غير صالحة.",
     "The variant price adjustment cannot make the effective price negative.": "لا يمكن أن يؤدي تعديل السعر إلى سعر نهائي سالب.",
     "The price adjustment must fit a decimal amount with two places.": "يجب أن يكون تعديل السعر رقمًا عشريًا بحد أقصى منزلتين.",
+    "The proposed product price would make an existing variant price negative. Adjust the product price or the variant first.": "سعر المنتج المقترح سيجعل سعر أحد المتغيرات سالبًا. عدّل سعر المنتج أو المتغير أولًا.",
     "This variant has reservation history. Deactivate it instead.": "لهذا المتغير سجل حجوزات. عطّله بدلًا من حذفه.",
     "This variant has inventory movement history. Deactivate it instead.": "لهذا المتغير سجل حركة مخزون. عطّله بدلًا من حذفه.",
     "This variant has stock or reserved quantity. Deactivate it instead.": "لهذا المتغير مخزون أو كمية محجوزة. عطّله بدلًا من حذفه.",

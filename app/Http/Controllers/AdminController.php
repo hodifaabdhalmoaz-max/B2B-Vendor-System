@@ -12,6 +12,7 @@ use App\Models\ProductColorImage;
 use App\Models\Size;
 use App\Models\Slide;
 use App\Services\RevenueAnalyticsService;
+use App\Support\DecimalMoney;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -632,8 +633,8 @@ class AdminController extends Controller
             'slug' => 'required|string|max:255',
             'short_description' => 'required|string',
             'description' => 'required|string',
-            'regular_price' => 'required|numeric|min:0',
-            'sale_price' => 'required|numeric|min:0',
+            'regular_price' => 'required|numeric|min:0|decimal:0,2',
+            'sale_price' => 'nullable|numeric|min:0|decimal:0,2',
             'SKU' => 'required|string|max:255',
             'stock_status' => 'required|in:instock,outofstock',
             'featured' => 'required|boolean',
@@ -684,6 +685,9 @@ class AdminController extends Controller
         $product->description = $request->description;
         $product->regular_price = $request->regular_price;
         $product->sale_price = $request->sale_price;
+        if ($product->isDirty(['regular_price', 'sale_price'])) {
+            $this->guardVariantPricesForProductPrice($product);
+        }
         $product->SKU = $request->SKU;
         $product->stock_status = $request->stock_status;
         $product->featured = $request->featured;
@@ -893,6 +897,22 @@ class AdminController extends Controller
         if ($detachedSizeIds !== []) {
             throw ValidationException::withMessages([
                 'sizes' => __('An active variant still uses one of the removed sizes. Deactivate or edit that variant first.'),
+            ]);
+        }
+    }
+
+    private function guardVariantPricesForProductPrice(Product $product): void
+    {
+        // The unsaved Product uses the same current_price accessor as the storefront.
+        // The lowest adjustment is the strictest requirement, including inactive variants.
+        $lowestAdjustment = $product->variants()->min('price_adjustment');
+
+        if ($lowestAdjustment !== null
+            && DecimalMoney::toCents($product->current_price) + DecimalMoney::toCents($lowestAdjustment) < 0) {
+            $priceField = $product->is_on_sale ? 'sale_price' : 'regular_price';
+
+            throw ValidationException::withMessages([
+                $priceField => __('The proposed product price would make an existing variant price negative. Adjust the product price or the variant first.'),
             ]);
         }
     }

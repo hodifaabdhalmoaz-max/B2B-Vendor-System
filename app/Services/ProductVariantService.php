@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\InventoryItem;
 use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Support\DecimalMoney;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -367,7 +368,7 @@ class ProductVariantService
 
     private function validateEffectivePrice(Product $product, string $priceAdjustment): void
     {
-        if (((float) $product->current_price + (float) $priceAdjustment) < 0) {
+        if (DecimalMoney::toCents($product->current_price) + DecimalMoney::toCents($priceAdjustment) < 0) {
             throw ValidationException::withMessages([
                 'price_adjustment' => __('The variant price adjustment cannot make the effective price negative.'),
             ]);

@@ -49,6 +49,7 @@
     "Invalid variant combination selected.": "Invalid variant combination selected.",
     "The variant price adjustment cannot make the effective price negative.": "The variant price adjustment cannot make the effective price negative.",
     "The price adjustment must fit a decimal amount with two places.": "The price adjustment must fit a decimal amount with two places.",
+    "The proposed product price would make an existing variant price negative. Adjust the product price or the variant first.": "The proposed product price would make an existing variant price negative. Adjust the product price or the variant first.",
     "This variant has reservation history. Deactivate it instead.": "This variant has reservation history. Deactivate it instead.",
     "This variant has inventory movement history. Deactivate it instead.": "This variant has inventory movement history. Deactivate it instead.",
     "This variant has stock or reserved quantity. Deactivate it instead.": "This variant has stock or reserved quantity. Deactivate it instead.",

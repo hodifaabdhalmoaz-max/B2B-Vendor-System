@@ -4,6 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use App\Models\ProductVariant;
 use App\Services\ProductVariantService;
+use App\Support\DecimalMoney;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
@@ -78,7 +79,7 @@ class StoreProductVariantRequest extends FormRequest
                     $validator->errors()->add('variant', __('This exact product variant already exists.'));
                 }
 
-                if (((float) $product->current_price + (float) $this->input('price_adjustment', 0)) < 0) {
+                if (DecimalMoney::toCents($product->current_price) + DecimalMoney::toCents($this->input('price_adjustment', 0)) < 0) {
                     $validator->errors()->add('price_adjustment', __('The variant price adjustment cannot make the effective price negative.'));
                 }
             },

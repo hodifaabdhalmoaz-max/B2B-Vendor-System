@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\DecimalMoney;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -77,6 +78,7 @@ class ProductVariant extends Model
     {
         $basePrice = $this->product?->current_price ?? 0;
 
-        return number_format(max(0, (float) $basePrice + (float) $this->price_adjustment), 2, '.', '');
+        // Show legacy invalid pricing as a negative amount instead of masking it as zero.
+        return DecimalMoney::formatCents(DecimalMoney::toCents($basePrice) + DecimalMoney::toCents($this->price_adjustment));
     }
 }

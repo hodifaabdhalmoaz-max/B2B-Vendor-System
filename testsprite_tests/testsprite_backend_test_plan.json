@@ -1,0 +1,52 @@
+[
+  {
+    "id": "TC001",
+    "title": "get_shop_products_list",
+    "description": "Verify that GET /shop returns a 200 status with a paged list of products for the public storefront without requiring authentication."
+  },
+  {
+    "id": "TC002",
+    "title": "get_products_by_category",
+    "description": "Verify that GET /shop/category/{slug} returns a 200 status with products filtered by the given category slug, and returns 404 for a non-existent category."
+  },
+  {
+    "id": "TC003",
+    "title": "get_shop_invalid_pagination",
+    "description": "Verify that GET /shop with per_page=0 returns a 400 Bad Request or validation error due to invalid pagination parameter."
+  },
+  {
+    "id": "TC004",
+    "title": "search_and_filter_products",
+    "description": "Verify that GET /shop supports search, brand filtering, price range filtering, and sorting, returning 200 with correct filtered and sorted product lists."
+  },
+  {
+    "id": "TC005",
+    "title": "search_empty_and_long_query_validation",
+    "description": "Verify that GET /shop with an empty search query returns either 200 with default product list or 400 if empty query validation is enforced, and that a very long search query returns a 422 Validation Error."
+  },
+  {
+    "id": "TC006",
+    "title": "add_product_to_cart",
+    "description": "Verify that POST /cart/add with valid product_id and quantity adds the product to the cart and returns 200 with updated cart payload."
+  },
+  {
+    "id": "TC007",
+    "title": "add_product_to_cart_exceeding_stock",
+    "description": "Verify that POST /cart/add with quantity exceeding available stock returns a 409 Conflict with an out-of-stock error."
+  },
+  {
+    "id": "TC008",
+    "title": "place_order_authenticated",
+    "description": "Verify that POST /place-an-order with valid Authorization header and required order details creates an order and returns 201 with order_id and summary."
+  },
+  {
+    "id": "TC009",
+    "title": "place_order_unauthenticated",
+    "description": "Verify that POST /place-an-order without Authorization header returns 401 Unauthorized."
+  },
+  {
+    "id": "TC010",
+    "title": "admin_product_management",
+    "description": "Verify that authenticated admin can login via POST /admin/login, create a product via POST /admin/product/store with valid data, and retrieve product list via GET /admin/products, and that missing fields or expired JWT return appropriate validation or unauthorized errors."
+  }
+]

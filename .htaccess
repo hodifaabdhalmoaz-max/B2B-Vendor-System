@@ -1,0 +1,42 @@
+# ===== Root .htaccess for Laravel Project =====
+# This file should be placed in the root directory of your Laravel project
+# when uploading to shared hosting
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 1. منع الدخول المباشر لمجلد public لتوحيد الروابط
+    RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
+    RewriteRule ^ %1 [L,R=301]
+
+    # 2. توجيه جميع الطلبات داخلياً إلى مجلد public دون إظهاره في الرابط
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+# ===== Security: Block access to sensitive files =====
+<FilesMatch "\.(env|git|htaccess|htpasswd|ini|log|sh|sql|bak|tmp|md)$">
+    Require all denied
+</FilesMatch>
+
+# Block access to Laravel directories from root
+<FilesMatch "^(artisan|composer\.(json|lock)|package\.(json|lock))$">
+    Require all denied
+</FilesMatch>
+
+# Block directory browsing
+Options -Indexes
+
+# Block access to vendor and other directories
+RewriteRule ^(vendor|node_modules|storage|bootstrap/cache)/ - [F,L]
+
+# ===== Additional Security Headers =====
+<IfModule mod_headers.c>
+    # Remove server information
+    Header unset Server
+    Header unset X-Powered-By
+    
+    # Basic security headers
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options SAMEORIGIN
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>

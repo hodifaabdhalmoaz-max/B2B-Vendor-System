@@ -1,0 +1,158 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    level: 5
+    
+    paths:
+        - app/
+        - config/
+        - database/
+        - routes/
+        - tests/
+    
+    excludePaths:
+        - app/Console/Kernel.php
+        - bootstrap/
+        - storage/
+        - vendor/
+        - node_modules/
+        - public/
+        - resources/views/
+    
+    ignoreErrors:
+        # Laravel specific ignores
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder#'
+        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder#'
+        - '#Unsafe usage of new static#'
+        
+        # Model factory ignores
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory#'
+        
+        # Blade template ignores
+        - '#Variable \$[a-zA-Z0-9_]+ might not be defined#'
+        
+        # Migration ignores
+        - '#Method .+Migration::(up|down)\(\) has no return type specified#'
+        
+        # Seeder ignores
+        - '#Method .+Seeder::run\(\) has no return type specified#'
+        
+        # Test ignores
+        - '#Method .+Test::.+\(\) has no return type specified#'
+        - '#Call to an undefined method Illuminate\\Foundation\\Testing\\TestCase#'
+        
+        # Laravel helpers
+        - '#Function (app|config|request|response|route|url|view|auth|cache|session|trans|__)\(\) should not be called statically#'
+        
+        # Custom ignores for our project
+        - '#Property App\\Models\\.+::\$[a-zA-Z0-9_]+ is never read, only written#'
+        - '#Method App\\Http\\Controllers\\.+Controller::[a-zA-Z0-9_]+\(\) has no return type specified#'
+    
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+    
+    # Laravel specific configurations
+    universalObjectCratesClasses:
+        - Illuminate\Http\Request
+        - Illuminate\Support\Collection
+        - Illuminate\Database\Eloquent\Model
+        - Illuminate\Database\Eloquent\Builder
+        - Illuminate\Database\Query\Builder
+    
+    # Custom rules
+    rules:
+        - NunoMaduro\Larastan\Rules\NoModelMakeRule
+        - NunoMaduro\Larastan\Rules\NoUnnecessaryCollectionCallRule
+        - NunoMaduro\Larastan\Rules\ModelPropertyRule
+        - NunoMaduro\Larastan\Rules\NoUselessWithRule
+        - NunoMaduro\Larastan\Rules\ModelRuleHelper
+    
+    # Type coverage
+    typeAliases:
+        UserId: 'int<1, max>'
+        ProductId: 'int<1, max>'
+        CategoryId: 'int<1, max>'
+        BrandId: 'int<1, max>'
+        OrderId: 'int<1, max>'
+    
+    # Baseline file for existing errors
+    baseline: phpstan-baseline.neon
+    
+    # Memory limit
+    memoryLimitFile: .phpstan-memory-limit
+    
+    # Parallel processing
+    parallel:
+        jobSize: 20
+        maximumNumberOfProcesses: 32
+        minimumNumberOfJobsPerProcess: 2
+    
+    # Custom extensions
+    scanDirectories:
+        - app/
+        - config/
+    
+    scanFiles:
+        - bootstrap/app.php
+    
+    # Doctrine extensions (if using)
+    doctrine:
+        objectManagerLoader: tests/object-manager.php
+    
+    # Symfony container (Laravel uses it)
+    symfony:
+        containerXmlPath: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
+        constantHassers: false
+        consoleApplicationLoader: tests/console-application.php
+    
+    # Custom stubs
+    stubFiles:
+        - stubs/laravel.stub
+        - stubs/custom.stub
+    
+    # Bootstrap files
+    bootstrapFiles:
+        - bootstrap/app.php
+        - tests/bootstrap.php
+    
+    # Autoload files
+    autoload_files:
+        - app/helpers.php
+    
+    # Dynamic return type extensions
+    dynamicReturnTypeExtensions:
+        - NunoMaduro\Larastan\ReturnTypes\HigherOrderTapProxyExtension
+        - NunoMaduro\Larastan\ReturnTypes\ContainerArrayAccessExtension
+        - NunoMaduro\Larastan\ReturnTypes\EloquentBuilderExtension
+        - NunoMaduro\Larastan\ReturnTypes\ModelFactoryMethodsExtension
+        - NunoMaduro\Larastan\ReturnTypes\ModelExtension
+        - NunoMaduro\Larastan\ReturnTypes\AuthExtension
+        - NunoMaduro\Larastan\ReturnTypes\GuardExtension
+        - NunoMaduro\Larastan\ReturnTypes\RequestExtension
+        - NunoMaduro\Larastan\ReturnTypes\EloquentCollectionExtension
+        - NunoMaduro\Larastan\ReturnTypes\CollectionExtension
+    
+    # Method reflection extensions
+    methodReflectionExtensions:
+        - NunoMaduro\Larastan\Reflection\EloquentBuilderMethodReflectionExtension
+        - NunoMaduro\Larastan\Reflection\EloquentModelMethodReflectionExtension
+        - NunoMaduro\Larastan\Reflection\HigherOrderTapProxyMethodReflectionExtension
+        - NunoMaduro\Larastan\Reflection\HigherOrderCollectionProxyMethodReflectionExtension
+    
+    # Property reflection extensions
+    propertyReflectionExtensions:
+        - NunoMaduro\Larastan\Reflection\ModelPropertyExtension
+    
+    # Type specifier extensions
+    typeSpecifierExtensions:
+        - NunoMaduro\Larastan\TypeSpecifier\ModelRelationTypeSpecifierExtension
+    
+    # Custom error formatters
+    errorFormat: table
+    
+    # Report unmatched ignored errors
+    reportUnmatchedIgnoredErrors: false
+    
+    # Treat PHP errors as exceptions
+    treatPhpDocTypesAsCertain: false

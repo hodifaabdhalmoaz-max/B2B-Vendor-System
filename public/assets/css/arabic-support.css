@@ -1,0 +1,371 @@
+/* Arabic Language Support CSS */
+/* دعم اللغة العربية */
+
+/* RTL Support */
+[dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="rtl"] body {
+    font-family: 'Tajawal', 'Cairo', 'Amiri', 'Noto Sans Arabic', Arial, sans-serif;
+    direction: rtl;
+    text-align: right;
+}
+
+/* Arabic Fonts */
+.arabic-font {
+    font-family: 'Tajawal', 'Cairo', 'Amiri', 'Noto Sans Arabic', Arial, sans-serif;
+}
+
+.arabic-title {
+    font-family: 'Cairo', 'Tajawal', 'Amiri', 'Noto Sans Arabic', Arial, sans-serif;
+    font-weight: 600;
+}
+
+.arabic-text {
+    font-family: 'Noto Sans Arabic', 'Tajawal', 'Cairo', Arial, sans-serif;
+    line-height: 1.8;
+}
+
+/* RTL Navigation */
+[dir="rtl"] .navbar-nav {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-item {
+    margin-left: 0;
+    margin-right: 1rem;
+}
+
+[dir="rtl"] .dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
+/* RTL Forms */
+[dir="rtl"] .form-control {
+    text-align: right;
+}
+
+[dir="rtl"] .form-floating > label {
+    right: 0.75rem;
+    left: auto;
+}
+
+[dir="rtl"] .form-floating > .form-control:focus ~ label,
+[dir="rtl"] .form-floating > .form-control:not(:placeholder-shown) ~ label {
+    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
+/* RTL Buttons */
+[dir="rtl"] .btn {
+    text-align: center;
+}
+
+[dir="rtl"] .btn-group > .btn:not(:last-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+}
+
+[dir="rtl"] .btn-group > .btn:not(:first-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+}
+
+/* RTL Cards */
+[dir="rtl"] .card-body {
+    text-align: right;
+}
+
+[dir="rtl"] .card-title {
+    text-align: right;
+}
+
+/* RTL Tables */
+[dir="rtl"] .table {
+    text-align: right;
+}
+
+[dir="rtl"] .table th,
+[dir="rtl"] .table td {
+    text-align: right;
+}
+
+/* RTL Pagination */
+[dir="rtl"] .pagination {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .page-link {
+    margin-left: -1px;
+    margin-right: 0;
+}
+
+/* RTL Breadcrumb */
+[dir="rtl"] .breadcrumb-item + .breadcrumb-item::before {
+    content: "\\";
+    transform: scaleX(-1);
+}
+
+/* RTL Alerts */
+[dir="rtl"] .alert {
+    text-align: right;
+}
+
+[dir="rtl"] .alert-dismissible .btn-close {
+    left: 0;
+    right: auto;
+}
+
+/* RTL Modal */
+[dir="rtl"] .modal-header {
+    text-align: right;
+}
+
+[dir="rtl"] .modal-body {
+    text-align: right;
+}
+
+[dir="rtl"] .modal-footer {
+    justify-content: flex-start;
+}
+
+/* RTL Sidebar */
+[dir="rtl"] .sidebar {
+    right: 0;
+    left: auto;
+}
+
+[dir="rtl"] .sidebar .nav-link {
+    text-align: right;
+}
+
+/* RTL Search */
+[dir="rtl"] .search-field__input {
+    text-align: right;
+    padding-right: 1rem;
+    padding-left: 3rem;
+}
+
+[dir="rtl"] .btn-search,
+[dir="rtl"] .search-popup__submit {
+    left: 0.5rem;
+    right: auto;
+}
+
+/* RTL Product Cards */
+[dir="rtl"] .product-card {
+    text-align: right;
+}
+
+[dir="rtl"] .product-card__title {
+    text-align: right;
+}
+
+[dir="rtl"] .product-card__price {
+    text-align: right;
+}
+
+[dir="rtl"] .product-card__actions {
+    justify-content: flex-start;
+}
+
+/* RTL Cart */
+[dir="rtl"] .cart-item {
+    text-align: right;
+}
+
+[dir="rtl"] .cart-summary {
+    text-align: right;
+}
+
+/* RTL Footer */
+[dir="rtl"] .footer {
+    text-align: right;
+}
+
+[dir="rtl"] .footer-links {
+    text-align: right;
+}
+
+/* RTL Admin Panel */
+[dir="rtl"] .admin-sidebar {
+    right: 0;
+    left: auto;
+}
+
+[dir="rtl"] .admin-content {
+    margin-right: 250px;
+    margin-left: 0;
+}
+
+[dir="rtl"] .menu-list {
+    text-align: right;
+}
+
+[dir="rtl"] .menu-item .text {
+    text-align: right;
+}
+
+[dir="rtl"] .sub-menu {
+    right: 100%;
+    left: auto;
+}
+
+/* RTL Dashboard */
+[dir="rtl"] .dashboard-stats {
+    text-align: right;
+}
+
+[dir="rtl"] .stat-card {
+    text-align: right;
+}
+
+/* Arabic Number Styling */
+.arabic-numbers {
+    font-feature-settings: "lnum";
+    font-variant-numeric: lining-nums;
+}
+
+/* Price Display */
+[dir="rtl"] .price {
+    direction: ltr;
+    text-align: left;
+    display: inline-block;
+}
+
+[dir="rtl"] .currency {
+    margin-left: 0.25rem;
+    margin-right: 0;
+}
+
+/* Date Display */
+[dir="rtl"] .date {
+    direction: ltr;
+    text-align: left;
+    display: inline-block;
+}
+
+/* Phone Number Display */
+[dir="rtl"] .phone {
+    direction: ltr;
+    text-align: left;
+    display: inline-block;
+}
+
+/* Email Display */
+[dir="rtl"] .email {
+    direction: ltr;
+    text-align: left;
+    display: inline-block;
+}
+
+/* URL Display */
+[dir="rtl"] .url {
+    direction: ltr;
+    text-align: left;
+    display: inline-block;
+}
+
+/* Code Display */
+[dir="rtl"] .code,
+[dir="rtl"] pre,
+[dir="rtl"] code {
+    direction: ltr;
+    text-align: left;
+}
+
+/* RTL Specific Utilities */
+.text-start-rtl {
+    text-align: right !important;
+}
+
+.text-end-rtl {
+    text-align: left !important;
+}
+
+.float-start-rtl {
+    float: right !important;
+}
+
+.float-end-rtl {
+    float: left !important;
+}
+
+.me-rtl-1 { margin-left: 0.25rem !important; }
+.me-rtl-2 { margin-left: 0.5rem !important; }
+.me-rtl-3 { margin-left: 1rem !important; }
+.me-rtl-4 { margin-left: 1.5rem !important; }
+.me-rtl-5 { margin-left: 3rem !important; }
+
+.ms-rtl-1 { margin-right: 0.25rem !important; }
+.ms-rtl-2 { margin-right: 0.5rem !important; }
+.ms-rtl-3 { margin-right: 1rem !important; }
+.ms-rtl-4 { margin-right: 1.5rem !important; }
+.ms-rtl-5 { margin-right: 3rem !important; }
+
+.pe-rtl-1 { padding-left: 0.25rem !important; }
+.pe-rtl-2 { padding-left: 0.5rem !important; }
+.pe-rtl-3 { padding-left: 1rem !important; }
+.pe-rtl-4 { padding-left: 1.5rem !important; }
+.pe-rtl-5 { padding-left: 3rem !important; }
+
+.ps-rtl-1 { padding-right: 0.25rem !important; }
+.ps-rtl-2 { padding-right: 0.5rem !important; }
+.ps-rtl-3 { padding-right: 1rem !important; }
+.ps-rtl-4 { padding-right: 1.5rem !important; }
+.ps-rtl-5 { padding-right: 3rem !important; }
+
+/* Animation Fixes for RTL */
+[dir="rtl"] .slide-in-left {
+    animation-name: slideInRight;
+}
+
+[dir="rtl"] .slide-in-right {
+    animation-name: slideInLeft;
+}
+
+[dir="rtl"] .slide-out-left {
+    animation-name: slideOutRight;
+}
+
+[dir="rtl"] .slide-out-right {
+    animation-name: slideOutLeft;
+}
+
+/* Responsive RTL */
+@media (max-width: 768px) {
+    [dir="rtl"] .admin-content {
+        margin-right: 0;
+        margin-left: 0;
+    }
+    
+    [dir="rtl"] .admin-sidebar {
+        transform: translateX(100%);
+    }
+    
+    [dir="rtl"] .admin-sidebar.show {
+        transform: translateX(0);
+    }
+}
+
+/* Print Styles for RTL */
+@media print {
+    [dir="rtl"] * {
+        text-align: right !important;
+    }
+    
+    [dir="rtl"] .price,
+    [dir="rtl"] .date,
+    [dir="rtl"] .phone,
+    [dir="rtl"] .email,
+    [dir="rtl"] .url {
+        direction: ltr !important;
+        text-align: left !important;
+    }
+}

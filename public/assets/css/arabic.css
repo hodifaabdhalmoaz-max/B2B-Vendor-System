@@ -1,0 +1,456 @@
+/* Arabic specific styles */
+
+/* Set Cairo font for Arabic text */
+body {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust font sizes for Arabic */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust button text */
+.btn {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust form elements */
+input, textarea, select {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust navigation */
+.navigation__link {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust product cards */
+.pc__title {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust prices */
+.pc__price {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust footer */
+.footer__widget-title {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust cart */
+.cart-table__product-name {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust checkout */
+.checkout-form label {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust order confirmation */
+.order-info__item {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust admin panel */
+.admin-sidebar {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust font weights */
+.fw-light {
+    font-weight: 300 !important;
+}
+
+.fw-normal {
+    font-weight: 400 !important;
+}
+
+.fw-medium {
+    font-weight: 500 !important;
+}
+
+.fw-semibold {
+    font-weight: 600 !important;
+}
+
+.fw-bold {
+    font-weight: 700 !important;
+}
+
+/* Adjust letter spacing */
+.letter-spacing-normal {
+    letter-spacing: normal !important;
+}
+
+/* Adjust line height */
+.line-height-normal {
+    line-height: 1.5 !important;
+}
+
+/* Adjust text alignment for RTL */
+.text-start {
+    text-align: right !important;
+}
+
+.text-end {
+    text-align: left !important;
+}
+
+/* Adjust margins and paddings */
+.ms-1, .ms-2, .ms-3, .ms-4, .ms-5 {
+    margin-right: 0.25rem !important;
+    margin-left: 0 !important;
+}
+
+.me-1, .me-2, .me-3, .me-4, .me-5 {
+    margin-left: 0.25rem !important;
+    margin-right: 0 !important;
+}
+
+/* Adjust WhatsApp button */
+.whatsapp-btn {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+    font-weight: 600 !important;
+}
+
+/* Adjust language switcher */
+.language-switcher .dropdown-toggle {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.language-switcher .dropdown-item {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust search placeholder */
+::placeholder {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust buttons */
+.btn {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust product details */
+.product-single__title {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.product-single__price {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.product-single__description {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust cart table */
+.cart-table th {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.cart-table td {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust checkout form */
+.checkout-form .form-label {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.checkout-form .form-control {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust order summary */
+.order-summary__title {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.order-summary__item {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust order confirmation */
+.order-confirmation__title {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.order-confirmation__text {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust admin dashboard */
+.admin-dashboard__title {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.admin-dashboard__card {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust admin tables */
+.admin-table th {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.admin-table td {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust admin forms */
+.admin-form .form-label {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.admin-form .form-control {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust admin buttons */
+.admin-btn {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust admin sidebar */
+.admin-sidebar__menu {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.admin-sidebar__item {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust admin header */
+.admin-header__title {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.admin-header__user {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust admin footer */
+.admin-footer {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust alerts */
+.alert {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust badges */
+.badge {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust modals */
+.modal-title {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.modal-body {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.modal-footer {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust tooltips */
+.tooltip {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust popovers */
+.popover {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust breadcrumbs */
+.breadcrumb {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust pagination */
+.pagination {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust dropdown menus */
+.dropdown-menu {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.dropdown-item {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust tabs */
+.nav-tabs {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.nav-link {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust pills */
+.nav-pills {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust list groups */
+.list-group-item {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust cards */
+.card-title {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.card-text {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust toasts */
+.toast {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust spinners */
+.spinner-border {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust progress bars */
+.progress {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust accordions */
+.accordion-button {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.accordion-body {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust carousel */
+.carousel-caption {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust jumbotron */
+.jumbotron {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust alerts */
+.alert {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust badges */
+.badge {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust buttons */
+.btn {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust forms */
+.form-label {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.form-control {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.form-select {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+.form-check-label {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust inputs */
+input {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+textarea {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+select {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust tables */
+table {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+th {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+td {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust lists */
+ul {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+ol {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+li {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust paragraphs */
+p {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust spans */
+span {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust divs */
+div {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust links */
+a {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust headings */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}
+
+/* Adjust body */
+body {
+    font-family: 'Cairo', 'Jost', sans-serif !important;
+}

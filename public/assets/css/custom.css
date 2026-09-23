@@ -1,0 +1,1607 @@
+.footer-middle {
+    padding-top: 2.25rem;
+    padding-bottom: 2.25rem;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.pt-90 {
+    padding-top: 90px !important;
+}
+
+/* Breadcrumb Fix */
+.breadcrumb-item+.breadcrumb-item::before {
+    content: var(--bs-breadcrumb-divider, "/") !important;
+}
+
+[dir="rtl"] .breadcrumb-item+.breadcrumb-item::before {
+    content: var(--bs-breadcrumb-divider, "/") !important;
+    float: right !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0 !important;
+}
+
+.my-account__address-list {
+    display: flex;
+    gap: 1.625rem;
+}
+
+.form-floating>.form-control,
+.form-floating>.form-select {
+    height: 48px;
+}
+
+/* ===================================
+   تصميم العناوين مع الخط التحتي الأزرق
+   =================================== */
+
+.section-title {
+    position: relative;
+    display: block !important;
+    width: 100%;
+    margin-bottom: 2rem !important;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #f0c14b, #d4a853);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
+.section-title:hover::after {
+    width: 80px;
+    background: linear-gradient(90deg, #d4a853, #004085);
+}
+
+/* تصميم العناوين للصفحات المختلفة */
+.section-title.text-center::after {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.section-title.text-start::after,
+.section-title.text-right::after {
+    left: 0;
+    transform: translateX(0);
+}
+
+.section-title.text-end::after,
+.section-title.text-left::after {
+    left: auto;
+    right: 0;
+    transform: translateX(0);
+}
+
+/* تصميم متجاوب للعناوين */
+@media (max-width: 768px) {
+    .section-title::after {
+        width: 40px;
+        height: 2px;
+    }
+
+    .section-title:hover::after {
+        width: 50px;
+    }
+}
+
+/* تصميم خاص للعناوين الكبيرة */
+.section-title.large::after {
+    width: 80px;
+    height: 4px;
+}
+
+.section-title.large:hover::after {
+    width: 100px;
+}
+
+/* تصميم خاص للعناوين الصغيرة */
+.section-title.small::after {
+    width: 40px;
+    height: 2px;
+}
+
+.section-title.small:hover::after {
+    width: 50px;
+}
+
+/* ألوان مختلفة للخط التحتي */
+.section-title.blue::after {
+    background: linear-gradient(90deg, #f0c14b, #d4a853);
+}
+
+.section-title.green::after {
+    background: linear-gradient(90deg, #28a745, #1e7e34);
+}
+
+.section-title.red::after {
+    background: linear-gradient(90deg, #dc3545, #c82333);
+}
+
+.section-title.purple::after {
+    background: linear-gradient(90deg, #6f42c1, #5a32a3);
+}
+
+.section-title.orange::after {
+    background: linear-gradient(90deg, #fd7e14, #e55a00);
+}
+
+/* ===================================
+   تحسينات إضافية للتوازن والتصميم
+   =================================== */
+
+/* تحسين المسافات حول العناوين */
+.section-title {
+    margin-top: 1.5rem;
+    margin-bottom: 2.5rem !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* تحسين التوازن للعناوين المتوسطة */
+.section-title.text-center {
+    width: 100%;
+    text-align: center;
+}
+
+/* تأثير الظل للعناوين */
+.section-title {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* تحسين الخط التحتي للعناوين الطويلة */
+.section-title.long-title::after {
+    width: 80px;
+}
+
+.section-title.long-title:hover::after {
+    width: 120px;
+}
+
+/* تحسين الخط التحتي للعناوين القصيرة */
+.section-title.short-title::after {
+    width: 40px;
+}
+
+.section-title.short-title:hover::after {
+    width: 60px;
+}
+
+/* تحسين التباعد للأقسام */
+section {
+    margin-bottom: 3rem;
+}
+
+section:last-child {
+    margin-bottom: 2rem;
+}
+
+/* تحسين التوازن للحاويات */
+.container {
+    position: relative;
+}
+
+/* تحسين الخط التحتي مع الحركة */
+.section-title::after {
+    animation: slideIn 0.8s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        width: 0;
+        opacity: 0;
+    }
+
+    to {
+        width: 60px;
+        opacity: 1;
+    }
+}
+
+/* تحسين الخط التحتي للعناوين الفرعية */
+.sub-title {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.sub-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, #f0c14b, #d4a853);
+    border-radius: 1px;
+    transition: all 0.3s ease;
+}
+
+.sub-title:hover::after {
+    width: 40px;
+}
+
+/* تحسين التوازن للنصوص */
+.text-balance {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* تحسين المسافات العمودية */
+.section-spacing {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+@media (max-width: 768px) {
+    .section-spacing {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+}
+
+/* ===================================
+   إصلاحات خاصة للخط التحتي
+   =================================== */
+
+/* التأكد من ظهور الخط التحتي في جميع العناوين */
+h2.section-title::after,
+h1.section-title::after,
+h3.section-title::after {
+    content: '' !important;
+    display: block !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 60px !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, #f0c14b, #d4a853) !important;
+    border-radius: 2px !important;
+    transition: all 0.3s ease !important;
+    z-index: 1 !important;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3) !important;
+}
+
+/* تحسين الخط التحتي للعناوين المختلفة */
+.section-title.text-center::after {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+}
+
+/* إضافة مسافة إضافية للعناوين */
+.section-title {
+    padding-bottom: 1.5rem !important;
+    margin-bottom: 2.5rem !important;
+}
+
+/* تحسين الخط التحتي عند التمرير */
+.section-title:hover::after {
+    width: 80px !important;
+    background: linear-gradient(90deg, #d4a853, #004085) !important;
+    box-shadow: 0 3px 6px rgba(0, 123, 255, 0.4) !important;
+}
+
+/* تحسين خاص للعناوين في الصفحة الرئيسية */
+.category-carousel .section-title::after,
+.hot-deals .section-title::after,
+.products-grid .section-title::after,
+.brands-carousel .section-title::after {
+    content: '' !important;
+    display: block !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 60px !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, #f0c14b, #d4a853) !important;
+    border-radius: 2px !important;
+    transition: all 0.3s ease !important;
+    z-index: 1 !important;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3) !important;
+}
+
+/* تحسين العناوين للأجهزة المحمولة */
+@media (max-width: 768px) {
+    .section-title::after {
+        width: 40px !important;
+        height: 3px !important;
+    }
+
+    .section-title:hover::after {
+        width: 50px !important;
+    }
+}
+
+/* ===================================
+   تحسينات خط Cairo للموقع
+   =================================== */
+
+/* تطبيق خط Cairo على جميع العناصر */
+* {
+    font-family: "Cairo", sans-serif !important;
+    font-display: swap;
+}
+
+/* تحسين خط Cairo للعناوين */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+/* تحسين خط Cairo للنصوص العادية */
+p,
+span,
+div,
+a,
+button,
+input,
+textarea,
+select,
+label {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 400;
+}
+
+/* تحسين خط Cairo للروابط */
+a {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+/* تحسين خط Cairo للأزرار */
+.btn {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+/* تحسين خط Cairo للقوائم */
+.nav-link,
+.navbar-nav .nav-link {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 500;
+}
+
+/* تحسين خط Cairo للعناوين الرئيسية */
+.section-title {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+/* تحسين خط Cairo للأسعار */
+.price,
+.money {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* تحسين خط Cairo للمنتجات */
+.product-card .pc__title {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* تحسين خط Cairo للنماذج */
+.form-control,
+.form-select,
+.form-check-label {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 400;
+}
+
+/* تحسين خط Cairo للتنبيهات */
+.alert {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 500;
+}
+
+/* تحسين خط Cairo للبطاقات */
+.card-title {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 600;
+}
+
+.card-text {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 400;
+}
+
+/* تحسين خط Cairo للفوتر */
+.footer * {
+    font-family: "Cairo", sans-serif !important;
+}
+
+/* تحسين خط Cairo للهيدر */
+.header * {
+    font-family: "Cairo", sans-serif !important;
+}
+
+/* تحسين خط Cairo للقوائم المنسدلة */
+.dropdown-menu,
+.dropdown-item {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 400;
+}
+
+/* تحسين خط Cairo للجداول */
+table,
+th,
+td {
+    font-family: "Cairo", sans-serif !important;
+}
+
+/* تحسين خط Cairo للشارات */
+.badge {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 600;
+}
+
+/* تحسين خط Cairo للتبويبات */
+.nav-tabs .nav-link {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 500;
+}
+
+/* تحسين خط Cairo للمودال */
+.modal-title {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 700;
+}
+
+.modal-body,
+.modal-footer {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 400;
+}
+
+/* تحسين خط Cairo للبحث */
+.search-field {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 400;
+}
+
+/* تحسين خط Cairo للعدادات */
+.qty-control {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 500;
+}
+
+/* تحسين خط Cairo للتوست */
+.toast-header,
+.toast-body {
+    font-family: "Cairo", sans-serif !important;
+}
+
+/* تحسين الخط للنصوص العربية */
+.arabic-text {
+    font-family: "Cairo", sans-serif !important;
+    letter-spacing: 0.02em;
+    word-spacing: 0.1em;
+    line-height: 1.6;
+}
+
+/* تحسين أوزان الخط */
+.font-light {
+    font-weight: 300 !important;
+}
+
+.font-normal {
+    font-weight: 400 !important;
+}
+
+.font-medium {
+    font-weight: 500 !important;
+}
+
+.font-semibold {
+    font-weight: 600 !important;
+}
+
+.font-bold {
+    font-weight: 700 !important;
+}
+
+.font-extrabold {
+    font-weight: 800 !important;
+}
+
+.font-black {
+    font-weight: 900 !important;
+}
+
+/* تحسين الخط للشاشات الصغيرة */
+@media (max-width: 768px) {
+    * {
+        font-size: 0.9rem;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-size: 1.2rem;
+    }
+
+    .section-title {
+        font-size: 1.4rem;
+    }
+}
+
+/* تحسين الخط للشاشات الكبيرة */
+@media (min-width: 1200px) {
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .product-card .pc__title {
+        font-size: 1.1rem;
+    }
+}
+
+/* ===================================
+   تحسينات إضافية لخط Cairo
+   =================================== */
+
+/* تحسين خط Cairo للعناصر الخاصة */
+.logo,
+.brand-name {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 800;
+}
+
+/* تحسين خط Cairo للقوائم الجانبية */
+.sidebar-menu,
+.sidebar-menu * {
+    font-family: "Cairo", sans-serif !important;
+}
+
+/* تحسين خط Cairo للإشعارات */
+.notification,
+.alert-message {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 500;
+}
+
+/* تحسين خط Cairo للأرقام */
+.number,
+.count,
+.quantity {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 700;
+}
+
+/* تحسين خط Cairo للتواريخ */
+.date,
+.time {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 400;
+}
+
+/* تحسين خط Cairo للعناوين الفرعية */
+.subtitle,
+.sub-heading {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 600;
+}
+
+/* تحسين خط Cairo للنصوص التوضيحية */
+.description,
+.caption {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+/* تحسين خط Cairo للروابط الخاصة */
+.special-link,
+.cta-link {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 600;
+}
+
+/* تحسين خط Cairo للعناصر التفاعلية */
+.interactive-element {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 500;
+}
+
+/* تحسين خط Cairo للنصوص المميزة */
+.highlight-text,
+.featured-text {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 700;
+}
+
+/* تحسين خط Cairo للقوائم */
+ul,
+ol,
+li {
+    font-family: "Cairo", sans-serif !important;
+}
+
+/* تحسين خط Cairo للعناصر المخفية */
+.hidden-text,
+.sr-only {
+    font-family: "Cairo", sans-serif !important;
+}
+
+/* تحسين خط Cairo للعناصر المطبوعة */
+@media print {
+    * {
+        font-family: "Cairo", sans-serif !important;
+    }
+}
+
+/* تحسين خط Cairo للعناصر المتحركة */
+.animated-text {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 500;
+}
+
+/* تحسين خط Cairo للعناصر المرنة */
+.flexible-text {
+    font-family: "Cairo", sans-serif !important;
+    font-weight: 400;
+}
+
+/* إزالة أي خطوط أخرى قد تتداخل */
+.font-jost,
+.font-allura,
+.font-sofia {
+    font-family: "Cairo", sans-serif !important;
+}
+
+/* تحسين خط Cairo للعناصر المخصصة */
+.custom-font {
+    font-family: "Cairo", sans-serif !important;
+}
+
+/* تأكيد تطبيق خط Cairo على جميع العناصر */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    font-family: "Cairo", sans-serif !important;
+}
+
+/* تحسين خط Cairo للعناصر الحديثة */
+input,
+textarea,
+select,
+button {
+    font-family: "Cairo", sans-serif !important;
+}
+
+/* إصلاح ظهور أيقونات عرض المنتجات على الجوال */
+@media (max-width: 767.98px) {
+
+    /* إظهار شريط الأزرار دائماً على الجوال */
+    .product-card .anim_appear-bottom {
+        opacity: 1 !important;
+        visibility: visible !important;
+        bottom: 0 !important;
+        position: absolute !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(8px) !important;
+        width: 100% !important;
+        left: 0 !important;
+        margin: 0 !important;
+        padding: 5px !important;
+        border-radius: 0 0 10px 10px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1) !important;
+        z-index: 10 !important;
+        min-height: 45px !important;
+        transform: none !important;
+    }
+
+    /* تحسين شكل الأزرار داخل الشريط على الجوال */
+    .product-card .anim_appear-bottom button,
+    .product-card .anim_appear-bottom .btn-link {
+        font-size: 10px !important;
+        padding: 5px !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #333 !important;
+        text-decoration: none !important;
+        background-color: transparent !important;
+        border: none !important;
+        flex: 1 !important;
+        max-width: 50px !important;
+    }
+
+    /* تكبير الأيقونات لتسهيل اللمس */
+    .product-card .anim_appear-bottom svg {
+        width: 22px !important;
+        height: 22px !important;
+        stroke: currentColor !important;
+    }
+
+    /* زر إضافة للسلة المخصص للجوال */
+    .product-card .anim_appear-bottom .js-add-cart {
+        font-size: 0 !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='21' r='1'%3E%3C/circle%3E%3Ccircle cx='20' cy='21' r='1'%3E%3C/circle%3E%3Cpath d='M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6'%3E%3C/path%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-size: 22px !important;
+        min-width: 40px !important;
+    }
+
+    /* زيادة المسافة في الأسفل للمعلومات لتجنب غطائها بالأزرار */
+    .product-card_style3 .pc__info {
+        padding-bottom: 55px !important;
+    }
+
+    /* لستايلات المنتجات الأخرى */
+    .product-card .pc__atc.anim_appear-bottom {
+        max-width: none !important;
+        border-radius: 0 !important;
+        font-size: 12px !important;
+        height: 40px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background-color: #ffc107 !important;
+        /* لون تحذيري للفت الانتباه */
+        color: #000 !important;
+    }
+}
+
+/* ===================================
+   تحسينات السلايدر (القائمة الجانبية) للجوال
+   =================================== */
+
+@media (max-width: 991px) {
+    .header-mobile__navigation {
+        position: fixed !important;
+        top: 60px !important;
+        /* ارتفاع الهيدر الفعلي */
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: auto !important;
+        max-height: calc(100vh - 60px) !important;
+        background-color: #fff !important;
+        z-index: 1050 !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        display: none !important;
+        /* مخفي افتراضياً */
+        flex-direction: column;
+        overflow-y: auto !important;
+        padding-bottom: 80px !important;
+        /* مساحة للفوتر موبايل */
+        transition: all 0.3s ease;
+    }
+
+    /* عندما تكون القائمة مفتوحة */
+    body.mobile-menu-opened {
+        overflow: hidden !important;
+    }
+
+    body.mobile-menu-opened .header-mobile__navigation {
+        display: flex !important;
+        animation: slideInDown 0.3s ease-out;
+    }
+
+    @keyframes slideInDown {
+        from {
+            transform: translateY(-10px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* تحسين روابط التنقل */
+    .navigation__list {
+        padding: 10px 0;
+        margin-bottom: 0;
+        display: block !important;
+        /* التأكد من ظهورها */
+    }
+
+    .navigation__item {
+        margin: 0 !important;
+        border-bottom: 1px solid #f1f1f1;
+        display: block !important;
+    }
+
+    .navigation__link {
+        padding: 18px 25px !important;
+        font-weight: 600 !important;
+        font-size: 1.15rem !important;
+        color: #222 !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        text-decoration: none !important;
+    }
+
+    .navigation__link:hover,
+    .navigation__link:active {
+        background-color: #f0f7ff !important;
+        color: #f0c14b !important;
+    }
+
+    /* Fix underline position for RTL */
+    .header-mobile__navigation .navigation__link:after {
+        left: auto !important;
+        right: 25px !important;
+    }
+
+    /* قسم المستخدم في أسفل القائمة */
+    .header-mobile__navigation .mt-auto.bg-light {
+        background-color: #f8f9fa !important;
+        margin-top: auto !important;
+        border-top: 1px solid #eee !important;
+        padding: 15px 20px !important;
+        width: 100%;
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .customer-links {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        padding: 16px !important;
+        margin-bottom: 12px !important;
+        display: flex !important;
+        align-items: center;
+        text-decoration: none !important;
+        transition: all 0.2s ease;
+        border: 1px solid rgba(0, 0, 0, 0.02);
+    }
+
+    .customer-links:active {
+        transform: translateY(2px);
+        background-color: #fdfdfd;
+    }
+
+    .user-avatar-sm {
+        background: linear-gradient(135deg, #f0c14b, #d4a853) !important;
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* تحسين البحث في الجوال */
+    .header-mobile .search-field {
+        background: #f8f8f8;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 4px 15px;
+        margin: 20px 15px 10px !important;
+    }
+
+    .header-mobile .search-field__input {
+        background: transparent !important;
+        border: none !important;
+        padding: 12px 0 !important;
+        padding-left: 45px !important;
+        padding-right: 45px !important;
+        font-size: 1rem !important;
+    }
+}
+
+/* ===================================
+   تصميم كروت المنتجات الاحترافي
+   =================================== */
+
+.product-card_style3 {
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+    border-radius: 15px !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    background: #fff !important;
+    position: relative !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+.product-card_style3:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08) !important;
+    z-index: 5;
+}
+
+.product-card_style3 .pc__img-wrapper {
+    position: relative !important;
+    overflow: hidden !important;
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.product-card_style3 .pc__img {
+    transition: transform 0.8s ease !important;
+}
+
+.product-card_style3:hover .pc__img {
+    transform: scale(1.08) !important;
+}
+
+/* طبقة أزرار الأكشن المتطورة - تطابق الصور المرفقة */
+.product-actions-overlay {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 12px 10px !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    background: #fff !important;
+    border-top: 1px solid #f0f0f0 !important;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+    transform: translateY(100%) !important;
+    opacity: 0 !important;
+    z-index: 5 !important;
+}
+
+.product-card_style3:hover .product-actions-overlay {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+}
+
+/* أزرار الأكشن الفردية */
+.action-btn {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    border: 1px solid #eee !important;
+    background: #fff !important;
+    color: #444 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+}
+
+.action-btn:hover {
+    background: #f0c14b !important;
+    color: #fff !important;
+    border-color: #f0c14b !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.2) !important;
+}
+
+.action-btn i {
+    width: 20px !important;
+    height: 20px !important;
+    stroke-width: 1.5px !important;
+}
+
+/* تخصيص الألوان عند الوقوف على الأزرار */
+.action-btn.btn-wishlist:hover {
+    background: #ff4757 !important;
+    border-color: #ff4757 !important;
+    box-shadow: 0 5px 15px rgba(255, 71, 87, 0.2) !important;
+}
+
+.action-btn.btn-cart:hover {
+    background: #2ecc71 !important;
+    border-color: #2ecc71 !important;
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2) !important;
+}
+
+/* تحسين معلومات المنتج */
+.pc__info {
+    padding: 15px !important;
+    background: #fff !important;
+    border-radius: 0 0 15px 15px !important;
+    transition: all 0.3s ease !important;
+    min-height: 110px !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.pc__title {
+    font-size: 1rem !important;
+    margin-bottom: 8px !important;
+    height: 2.4em !important;
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+}
+
+.pc__title a {
+    color: #222 !important;
+    text-decoration: none !important;
+    transition: color 0.2s !important;
+}
+
+.pc__title a:hover {
+    color: #f0c14b !important;
+}
+
+.product-card__price {
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    margin-top: auto !important;
+}
+
+/* إخفاء التصميم القديم */
+.product-card_style3 .anim_appear-bottom {
+    display: none !important;
+}
+
+/* تحسينات الجوال لكروت المنتجات */
+@media (max-width: 991px) {
+    .product-actions-overlay {
+        position: relative !important;
+        transform: none !important;
+        opacity: 1 !important;
+        bottom: 0 !important;
+        padding: 10px 5px !important;
+        background: transparent !important;
+        border-top: 1px solid #f5f5f5 !important;
+        margin-top: 10px !important;
+        gap: 8px !important;
+    }
+
+    .action-btn {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    .action-btn i {
+        width: 18px !important;
+        height: 18px !important;
+    }
+}
+
+/* تعديل للهواتف الصغيرة جداً */
+@media (max-width: 380px) {
+    .navigation__link {
+        padding: 12px 15px !important;
+        font-size: 1rem !important;
+    }
+}
+
+/* إخفاء التصميم القديم */
+.product-card_style3 .anim_appear-bottom {
+    display: none !important;
+}
+
+/* تحسينات الجوال لكروت المنتجات */
+@media (max-width: 767.98px) {
+    .product-card_style3:hover {
+        transform: none !important;
+        /* إلغاء الرفع في الجوال لتجنب المشاكل */
+    }
+
+    .product-actions-overlay {
+        opacity: 1 !important;
+        bottom: 0 !important;
+        background: rgba(255, 255, 255, 0.9) !important;
+        padding: 10px !important;
+        gap: 8px !important;
+    }
+
+    .action-btn {
+        width: 40px !important;
+        height: 40px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .action-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+}
+
+/* تعديل للهواتف الصغيرة جداً */
+@media (max-width: 380px) {
+    .navigation__link {
+        font-size: 1rem !important;
+        padding: 12px 20px !important;
+    }
+
+    .customer-links .fw-bold {
+        font-size: 0.95rem;
+    }
+}
+
+/* ===================================
+   تحسين الشريط العلوي (Header)
+   =================================== */
+
+/* تأثير ظل احترافي للهيدر */
+.header {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+/* الظل للهيدر العادي (غير الشفاف) */
+.header:not(.header-transparent-bg) {
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04);
+}
+
+/* تأثير احترافي عند تفعيل الهيدر اللاصق (Sticky) */
+.header_sticky-active {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+/* تحسين الهيدر في الجوال */
+.header-mobile {
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.header-mobile.header_sticky-active {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+    background-color: #fff !important;
+}
+
+/* إضافة خط علوي رفيع جمالي للهيدر (اختياري) */
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+.header_sticky-active::before {
+    opacity: 0.8;
+}
+
+/* ===================================
+   تحسين الفوتر في الجوال (4 أعمدة)
+   =================================== */
+
+.footer-mobile {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: auto !important;
+    min-height: 65px !important;
+    z-index: 1000 !important;
+    opacity: 1 !important; /* Force opacity to fix invisibility bug */
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05) !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.03) !important;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+    display: flex !important;
+    align-items: center !important;
+    transform: translateY(0) !important;
+}
+
+.footer-mobile .row {
+    width: 100%;
+}
+
+.footer-mobile__link {
+    color: #555 !important;
+    text-decoration: none !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    opacity: 0.8;
+}
+
+.footer-mobile__link:hover,
+.footer-mobile__link:active,
+.footer-mobile__link.active {
+    color: #B9A16B !important;
+    opacity: 1;
+}
+
+.footer-mobile__link svg {
+    transition: transform 0.2s ease !important;
+}
+
+.footer-mobile__link:active svg {
+    transform: scale(0.9);
+}
+
+/* تحسين الألوان للأيقونات العلوية في حالة النشاط */
+.header-tools__item.active,
+.header-tools__item.active svg,
+.text-gold,
+.text-gold svg,
+.text-gold i {
+    color: #B9A16B !important;
+    fill: #B9A16B !important;
+    stroke: #B9A16B !important;
+}
+
+.header-tools__item {
+    transition: all 0.2s ease;
+}
+
+.wishlist-amount {
+    background: #ff4757;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+}
+
+/* ===================================
+   تأثيرات واجهة السلة (Checkout Steps)
+   =================================== */
+
+.checkout-steps__item {
+    transition: all 0.4s ease-in-out !important;
+    opacity: 0.5;
+    /* باهت افتراضيا لغير النشط */
+    transform: scale(0.98);
+    /* تصغير بسيط لغير النشط */
+    transform-origin: right center;
+    /* لأن الموقع بالعربية، التكبير يبدأ من اليمين */
+    border-color: transparent !important; /* إخفاء خط العناصر غير النشطة */
+}
+
+/* التبويب الحالي النشط */
+.checkout-steps__item.current {
+    opacity: 1 !important;
+    /* ظاهر بالكامل */
+    transform: scale(1.05) !important;
+    /* تأثير الزووم/التقدم للأمام */
+    z-index: 2;
+    position: relative;
+    border-color: transparent !important; /* بدون خط أسود */
+}
+
+/* التبويبات السابقة (المكتملة) */
+.checkout-steps__item.completed {
+    opacity: 0.8 !important;
+    /* باهت قليلاً لتمييزه عن الحالي */
+    transform: scale(1) !important;
+    /* حجمه الطبيعي */
+    border-color: #28a745 !important; /* إرجاع الخط الأخضر */
+}
+
+.checkout-steps__item.completed .checkout-steps__item-number,
+.checkout-steps__item.completed .checkout-steps__item-title span,
+.checkout-steps__item.completed .checkout-steps__item-title em {
+    color: #28a745 !important;
+    /* نصوص خضراء */
+    transition: all 0.4s ease-in-out;
+}
+
+/* للموبايل: تغيير نقطة التكبير لأن التصميم عمودي */
+@media (max-width: 991.98px) {
+    .checkout-steps__item {
+        transform-origin: top center;
+    }
+}
+
+/* Breadcrumb Dashboard Styles */
+.breadcrumb-dashboard {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    border-radius: 50px;
+    padding: 12px 25px;
+    margin-bottom: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.breadcrumb-dashboard a {
+    color: #d4a853;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.breadcrumb-dashboard a:hover {
+    color: #b58b3a;
+}
+
+/* ===================================
+   شارات معلومات المنتج (التوصيل والشحن)
+   =================================== */
+.product-info-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.delivery-badge, .shipping-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.delivery-badge {
+    color: #333;
+    background: #fdfdfd;
+    border: 1px solid #eee;
+}
+
+.delivery-badge span {
+    color: #333;
+}
+
+/* Matching the purple-ish color for the days in the image */
+.delivery-badge span b {
+    color: #5d56a3; 
+}
+
+.delivery-badge i {
+    color: #d4a853; /* Orange/Gold clock border */
+    font-size: 0.85rem;
+}
+
+.shipping-badge {
+    color: #333;
+    background: #fffafa;
+    border: 1px solid #ffebeb;
+}
+
+.shipping-badge i {
+    color: #e53e3e; /* Red truck */
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .product-info-badges {
+        gap: 5px;
+    }
+    .delivery-badge, .shipping-badge {
+        font-size: 0.62rem;
+        padding: 2px 7px;
+    }
+}
+
+/* ===================================
+   تخصيص أزرار إضافة للسلة كأيقونات عائمة
+   =================================== */
+.product-card .cart-icon-btn {
+    position: absolute !important;
+    bottom: 15px !important;
+    right: 15px !important;
+    width: 45px !important;
+    height: 45px !important;
+    border-radius: 50% !important;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    color: #d4a853 !important;
+    border: 2px solid #d4a853 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    transition: all 0.3s ease !important;
+    z-index: 10 !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
+    text-shadow: none !important;
+}
+
+.product-card .cart-icon-btn:hover,
+.product-card .cart-icon-btn:focus,
+.product-card .cart-icon-btn:active {
+    background-color: #d4a853 !important;
+    color: #ffffff !important;
+    transform: scale(1.1) !important;
+    box-shadow: 0 6px 15px rgba(212, 168, 83, 0.4) !important;
+}
+
+/* ===================================
+   تخصيص بطاقة المنتج لتصبح كلوحة (Panel)
+   =================================== */
+.product-card {
+    background-color: #faf9f6 !important; /* لون أوف وايت (Off-white) */
+    border-radius: 16px !important;
+    padding: 15px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid #f0f0f0 !important;
+    transition: all 0.3s ease !important;
+}
+
+.product-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+    transform: translateY(-5px) !important;
+    border-color: #e5e5e5 !important;
+}
+
+.product-card .pc__img-wrapper {
+    border-radius: 10px !important;
+    overflow: hidden !important;
+}
+
+/* ===================================
+   أزرار ذهبية متدرجة عامة (Gradient Golden Buttons)
+   =================================== */
+.btn-golden {
+    background: linear-gradient(135deg, #f0c14b 0%, #d4a853 100%) !important;
+    color: white !important;
+    border: none !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-golden:hover,
+.btn-golden:focus {
+    background: linear-gradient(135deg, #e0b13b 0%, #c49843 100%) !important;
+    box-shadow: 0 5px 15px rgba(240, 193, 75, 0.4) !important;
+    transform: translateY(-2px) !important;
+    color: white !important;
+}
+
+/* ===================================
+   تأثير ظلال باهت للشريط العلوي (Header Shadow)
+   =================================== */
+.header, #header, .site-header, .header-mobile {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.02) !important;
+}
+
+/* ===================================
+   إخفاء شريط التنقل السفلي على الكمبيوتر
+   =================================== */
+@media (min-width: 768px) {
+    .footer-mobile {
+        display: none !important;
+    }
+}
+
+/*
+   واجهات العميل على الهاتف تستخدم هيدر/تنقل حديث داخل صفحات المتجر.
+   نخفي الهيدر القديم الظاهر بالشعار في المنتصف والفوتر الأسود الطويل على الجوال فقط.
+*/
+@media (max-width: 991.98px) {
+    body:not(.admin) .header-mobile {
+        display: none !important;
+    }
+
+    body:not(.admin) .site-footer,
+    body:not(.admin) > hr.mt-5 {
+        display: none !important;
+    }
+}

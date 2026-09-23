@@ -1,0 +1,19 @@
+{
+  "status": "commited",
+  "type": "backend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:8000",
+  "backendAuthType": "public",
+  "executionArgs": {
+    "projectName": "Dunya-Alatfaal-Shop",
+    "projectPath": "d:\\projects\\Web_Projects\\Dunya-Alatfaal-Shop",
+    "testIds": [],
+    "additionalInstruction": "",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-H7N3Z_-QQvTXZP1r0b-i84OZkWOFeIK8kogC7CngptAenhHfKwoIo5okaAX2y3Zo1o5FYBvAlLKCfyIfVcbRVTCBjWg5c9FQuAquH0csJSV47KXTWupD8AJB6bBWuBG9HrQ"
+    }
+  },
+  "serverPort": 60400,
+  "proxy": "http://c68a13bd-1a0c-4e62-8ff3-017d5a0fd404:ZUnFl3aDqvZH5QHamzTM2ct8vqK4DTZf@tun.testsprite.com:8080"
+}

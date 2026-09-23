@@ -1,0 +1,93 @@
+# Logrotate configuration for Kids Store E-commerce
+# Place this file in /etc/logrotate.d/kids-store
+# Author: Hudhaifa Al-Hudhaifi
+
+# Laravel application logs
+/var/www/kids-store/storage/logs/*.log {
+    daily
+    missingok
+    rotate 30
+    compress
+    delaycompress
+    notifempty
+    create 644 www-data www-data
+    postrotate
+        # Restart PHP-FPM to release log file handles
+        systemctl reload php8.2-fpm > /dev/null 2>&1 || true
+    endscript
+}
+
+# Nginx access logs
+/var/log/nginx/kids-store-access.log {
+    daily
+    missingok
+    rotate 52
+    compress
+    delaycompress
+    notifempty
+    create 644 www-data adm
+    sharedscripts
+    postrotate
+        # Reload Nginx to reopen log files
+        systemctl reload nginx > /dev/null 2>&1 || true
+    endscript
+}
+
+# Nginx error logs
+/var/log/nginx/kids-store-error.log {
+    daily
+    missingok
+    rotate 52
+    compress
+    delaycompress
+    notifempty
+    create 644 www-data adm
+    sharedscripts
+    postrotate
+        systemctl reload nginx > /dev/null 2>&1 || true
+    endscript
+}
+
+# Custom application logs
+/var/log/kids-store-*.log {
+    daily
+    missingok
+    rotate 30
+    compress
+    delaycompress
+    notifempty
+    create 644 www-data www-data
+}
+
+# Backup logs
+/var/log/kids-store-backup.log {
+    weekly
+    missingok
+    rotate 12
+    compress
+    delaycompress
+    notifempty
+    create 644 www-data www-data
+}
+
+# Health check logs
+/var/log/kids-store-health.log {
+    daily
+    missingok
+    rotate 14
+    compress
+    delaycompress
+    notifempty
+    create 644 www-data www-data
+}
+
+# Maintenance logs
+/var/log/kids-store-maintenance.log {
+    weekly
+    missingok
+    rotate 8
+    compress
+    delaycompress
+    notifempty
+    create 644 www-data www-data
+}

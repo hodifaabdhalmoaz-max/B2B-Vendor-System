@@ -1,0 +1,149 @@
+name: 🔒 مشكلة أمنية
+description: أبلغ عن مشكلة أمنية (سرية)
+title: "[SECURITY] "
+labels: ["security", "critical", "private"]
+assignees:
+  - HA1234098765
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ **تحذير مهم**: إذا كانت هذه مشكلة أمنية حرجة، يرجى عدم الإبلاغ عنها هنا علناً.
+        
+        بدلاً من ذلك، يرجى التواصل مباشرة عبر:
+        - البريد الإلكتروني: hodifaabdhalmoaz@gmail.com
+        - WhatsApp: 777548421 967+
+        
+        استخدم هذا النموذج فقط للمشاكل الأمنية البسيطة أو الاستفسارات العامة حول الأمان.
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 🚨 مستوى الخطورة
+      description: ما مدى خطورة هذه المشكلة الأمنية؟
+      options:
+        - منخفض - مشكلة أمنية بسيطة
+        - متوسط - قد تؤثر على بعض المستخدمين
+        - عالي - قد تؤثر على معظم المستخدمين
+        - حرج - يمكن أن تعرض النظام بالكامل للخطر
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: 🔍 نوع المشكلة الأمنية
+      description: ما نوع المشكلة الأمنية؟
+      options:
+        - SQL Injection
+        - Cross-Site Scripting (XSS)
+        - Cross-Site Request Forgery (CSRF)
+        - Authentication Bypass
+        - Authorization Issues
+        - Data Exposure
+        - File Upload Vulnerability
+        - Session Management
+        - Input Validation
+        - Configuration Issue
+        - أخرى
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 📝 وصف المشكلة
+      description: وصف مفصل للمشكلة الأمنية (تجنب التفاصيل الحساسة)
+      placeholder: وصف عام للمشكلة...
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: 💥 التأثير المحتمل
+      description: ما التأثير المحتمل لهذه المشكلة؟
+      placeholder: |
+        - قد يؤدي إلى...
+        - يمكن للمهاجم أن...
+        - البيانات المعرضة للخطر...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected_component
+    attributes:
+      label: 🎯 المكون المتأثر
+      description: أي جزء من النظام متأثر؟
+      options:
+        - نظام المصادقة
+        - لوحة التحكم
+        - واجهة المتجر
+        - نظام الدفع
+        - إدارة المنتجات
+        - قاعدة البيانات
+        - API
+        - رفع الملفات
+        - أخرى
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 🔄 خطوات عامة للإنتاج
+      description: خطوات عامة لإعادة إنتاج المشكلة (تجنب التفاصيل الحساسة)
+      placeholder: |
+        1. الوصول إلى...
+        2. محاولة...
+        3. ملاحظة...
+    validations:
+      required: true
+
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: 🛡️ التخفيف المؤقت
+      description: هل تعرف أي طرق للتخفيف من هذه المشكلة مؤقتاً؟
+      placeholder: يمكن التخفيف من المشكلة عبر...
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 💡 الحل المقترح
+      description: هل لديك اقتراح لحل هذه المشكلة؟
+      placeholder: أقترح...
+
+  - type: checkboxes
+    id: disclosure
+    attributes:
+      label: 📢 الإفصاح المسؤول
+      description: التزام بالإفصاح المسؤول
+      options:
+        - label: أتعهد بعدم الإفصاح عن هذه المشكلة علناً حتى يتم إصلاحها
+          required: true
+        - label: لم أستغل هذه المشكلة لأغراض ضارة
+          required: true
+        - label: سأتعاون مع الفريق لحل هذه المشكلة
+          required: true
+
+  - type: input
+    id: contact
+    attributes:
+      label: 📞 معلومات التواصل
+      description: كيف يمكننا التواصل معك بشكل آمن؟
+      placeholder: البريد الإلكتروني أو وسيلة تواصل آمنة
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        **شكراً لك على الإبلاغ المسؤول عن هذه المشكلة الأمنية!**
+        
+        سنقوم بمراجعة التقرير والرد عليك في أقرب وقت ممكن.
+        
+        **للمشاكل الحرجة**: يرجى التواصل مباشرة عبر hodifaabdhalmoaz@gmail.com

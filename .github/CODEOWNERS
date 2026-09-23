@@ -1,0 +1,206 @@
+# Code Owners for متجر الأطفال
+# This file defines who owns what in the repository
+# More info: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# ===== Global Ownership =====
+# Default owner for everything in the repo
+* @HA1234098765
+
+# ===== Security-Critical Files =====
+# Security middleware and configurations
+/app/Http/Middleware/Security* @HA1234098765
+/app/Http/Middleware/TwoFactor* @HA1234098765
+/app/Http/Middleware/LoginAttempt* @HA1234098765
+/app/Http/Middleware/PerformanceMonitoring.php @HA1234098765
+/config/security.php @HA1234098765
+/config/performance.php @HA1234098765
+
+# Security services and commands
+/app/Services/TwoFactorAuthService.php @HA1234098765
+/app/Console/Commands/SecurityAudit.php @HA1234098765
+/app/Console/Commands/SecureBackup.php @HA1234098765
+
+# Security models
+/app/Models/SecurityLog.php @HA1234098765
+/app/Models/LoginAttempt.php @HA1234098765
+
+# ===== Database & Migrations =====
+# All database changes require review
+/database/migrations/ @HA1234098765
+/database/seeders/ @HA1234098765
+/database/factories/ @HA1234098765
+
+# Security-related migrations
+/database/migrations/*security* @HA1234098765
+/database/migrations/*two_factor* @HA1234098765
+/database/migrations/*login_attempts* @HA1234098765
+
+# ===== Configuration Files =====
+# Application configuration
+/config/ @HA1234098765
+/.env.* @HA1234098765
+/composer.json @HA1234098765
+/composer.lock @HA1234098765
+/package.json @HA1234098765
+/package-lock.json @HA1234098765
+
+# Build and deployment configs
+/vite.config.js @HA1234098765
+/.php-cs-fixer.php @HA1234098765
+/phpstan.neon @HA1234098765
+
+# ===== CI/CD & GitHub Configuration =====
+# GitHub workflows and actions
+/.github/ @HA1234098765
+/.github/workflows/ @HA1234098765
+/.github/ISSUE_TEMPLATE/ @HA1234098765
+
+# Deployment and automation
+/.github/workflows/ci.yml @HA1234098765
+/.github/workflows/deploy.yml @HA1234098765
+/.github/dependabot.yml @HA1234098765
+
+# ===== Documentation =====
+# Project documentation
+/README.md @HA1234098765
+/SECURITY.md @HA1234098765
+/CONTRIBUTING.md @HA1234098765
+/DEPLOYMENT.md @HA1234098765
+/LICENSE @HA1234098765
+
+# GitHub-specific docs
+/.github/SECRETS_SETUP.md @HA1234098765
+/.github/BRANCH_PROTECTION.md @HA1234098765
+/.github/pull_request_template.md @HA1234098765
+
+# ===== Core Application Files =====
+# Bootstrap and core setup
+/bootstrap/app.php @HA1234098765
+/artisan @HA1234098765
+
+# Service providers
+/app/Providers/ @HA1234098765
+/app/Providers/SecurityServiceProvider.php @HA1234098765
+
+# ===== Routes =====
+# All routing changes
+/routes/ @HA1234098765
+/routes/web.php @HA1234098765
+/routes/api.php @HA1234098765
+
+# ===== Controllers =====
+# Admin controllers (sensitive)
+/app/Http/Controllers/Admin* @HA1234098765
+/app/Http/Controllers/Auth* @HA1234098765
+
+# API controllers
+/app/Http/Controllers/Api/ @HA1234098765
+
+# Special controllers
+/app/Http/Controllers/SitemapController.php @HA1234098765
+
+# ===== Models =====
+# User and authentication models
+/app/Models/User.php @HA1234098765
+
+# Core business models
+/app/Models/Product.php @HA1234098765
+/app/Models/Order.php @HA1234098765
+/app/Models/Category.php @HA1234098765
+
+# ===== Views & Frontend =====
+# Admin views (sensitive)
+/resources/views/admin/ @HA1234098765
+/resources/views/auth/ @HA1234098765
+
+# Layout files
+/resources/views/layouts/ @HA1234098765
+
+# ===== Assets & Public Files =====
+# Security-related public files
+/public/.htaccess @HA1234098765
+/public/robots.txt @HA1234098765
+
+# Build output (auto-generated, but important)
+/public/build/ @HA1234098765
+
+# ===== Tests =====
+# All test files
+/tests/ @HA1234098765
+/phpunit.xml @HA1234098765
+
+# Security tests (extra important)
+/tests/Feature/*Security* @HA1234098765
+/tests/Feature/*Auth* @HA1234098765
+/tests/Unit/*Security* @HA1234098765
+
+# ===== Language Files =====
+# Localization files
+/resources/lang/ @HA1234098765
+/lang/ @HA1234098765
+
+# ===== Storage & Logs =====
+# Storage configuration
+/storage/app/.gitignore @HA1234098765
+/storage/logs/.gitignore @HA1234098765
+
+# ===== Vendor & Dependencies =====
+# Lock files (important for security)
+/composer.lock @HA1234098765
+/package-lock.json @HA1234098765
+/yarn.lock @HA1234098765
+
+# ===== Special Files =====
+# Git configuration
+/.gitignore @HA1234098765
+/.gitattributes @HA1234098765
+
+# Editor configuration
+/.editorconfig @HA1234098765
+
+# ===== Backup & Recovery =====
+# Backup-related files
+/storage/app/backups/ @HA1234098765
+/config/backup.php @HA1234098765
+
+# ===== API Documentation =====
+# API documentation files
+/docs/ @HA1234098765
+/api-docs/ @HA1234098765
+
+# ===== Performance & Monitoring =====
+# Performance-related files
+/app/Http/Middleware/*Performance* @HA1234098765
+/app/Console/Commands/OptimizePerformance.php @HA1234098765
+
+# ===== Third-party Integrations =====
+# Payment integrations
+/app/Services/*Payment* @HA1234098765
+/app/Http/Controllers/*Payment* @HA1234098765
+
+# Social media integrations
+/app/Services/*Social* @HA1234098765
+
+# ===== Custom Rules =====
+# Files that require extra scrutiny
+*.env* @HA1234098765
+*secret* @HA1234098765
+*password* @HA1234098765
+*key* @HA1234098765
+*token* @HA1234098765
+
+# SQL files (database changes)
+*.sql @HA1234098765
+
+# Shell scripts (potential security risk)
+*.sh @HA1234098765
+*.bash @HA1234098765
+
+# Docker files (if added later)
+Dockerfile* @HA1234098765
+docker-compose* @HA1234098765
+
+# ===== Emergency Contacts =====
+# For critical security issues, also contact:
+# Email: hodifaabdhalmoaz@gmail.com
+# WhatsApp: 777548421 967+

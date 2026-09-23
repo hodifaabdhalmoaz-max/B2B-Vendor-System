@@ -1,0 +1,69 @@
+# Crontab configuration for Kids Store E-commerce
+# Install with: sudo crontab -u www-data config/crontab/kids-store-cron
+# Author: Hudhaifa Al-Hudhaifi
+
+# Set environment variables
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=admin@yourdomain.com
+
+# Laravel Scheduler (runs every minute)
+* * * * * cd /var/www/kids-store && php artisan schedule:run >> /dev/null 2>&1
+
+# Database backup (daily at 2:00 AM)
+0 2 * * * cd /var/www/kids-store && php artisan backup:database --compress --upload --notify >> /var/log/kids-store-backup.log 2>&1
+
+# Files backup (weekly on Sunday at 3:00 AM)
+0 3 * * 0 cd /var/www/kids-store && php artisan backup:files --upload --verify >> /var/log/kids-store-backup.log 2>&1
+
+# Full backup (weekly on Saturday at 1:00 AM)
+0 1 * * 6 cd /var/www/kids-store && php artisan backup:full --compress --encrypt --upload --verify --notify >> /var/log/kids-store-backup.log 2>&1
+
+# System health check (every 30 minutes)
+*/30 * * * * cd /var/www/kids-store && php artisan system:health-check --notify >> /var/log/kids-store-health.log 2>&1
+
+# Clear expired sessions (daily at 4:00 AM)
+0 4 * * * cd /var/www/kids-store && php artisan session:gc >> /dev/null 2>&1
+
+# Clear application cache (daily at 5:00 AM)
+0 5 * * * cd /var/www/kids-store && php artisan cache:clear && php artisan config:cache && php artisan route:cache && php artisan view:cache >> /dev/null 2>&1
+
+# Generate sitemap (daily at 6:00 AM)
+0 6 * * * cd /var/www/kids-store && php artisan sitemap:generate >> /dev/null 2>&1
+
+# Clean old log files (weekly on Monday at 7:00 AM)
+0 7 * * 1 find /var/www/kids-store/storage/logs -name "*.log" -mtime +30 -delete
+
+# Clean old backup files (daily at 8:00 AM)
+0 8 * * * find /var/www/kids-store/storage/app/backups -name "*.sql*" -mtime +7 -delete
+0 8 * * * find /var/www/kids-store/storage/app/backups -name "*.tar.gz" -mtime +7 -delete
+
+# Update product search index (daily at 9:00 AM)
+0 9 * * * cd /var/www/kids-store && php artisan scout:import "App\Models\Product" >> /dev/null 2>&1
+
+# Note: The following commands are disabled as they are not implemented yet:
+# - report:daily (daily reports)
+# - orders:process-pending (pending orders processing)
+# - cart:send-reminders (abandoned cart reminders)
+# - currency:update (currency rates update)
+
+# Clean temporary files (daily at 1:00 AM)
+0 1 * * * find /tmp -name "laravel-*" -mtime +1 -delete
+
+# Restart queue workers (daily at 2:30 AM to prevent memory leaks)
+30 2 * * * sudo systemctl restart kids-store-worker
+
+# Monitor disk space (every hour)
+0 * * * * df -h | awk '$5 > 80 {print "Disk space warning: " $0}' | mail -s "Disk Space Alert" admin@yourdomain.com
+
+# Monitor memory usage (every 2 hours)
+0 */2 * * * free -m | awk 'NR==2{printf "Memory Usage: %s/%sMB (%.2f%%)\n", $3,$2,$3*100/$2 }' | awk '$NF > 80 {print "High memory usage: " $0}' | mail -s "Memory Usage Alert" admin@yourdomain.com
+
+# Check SSL certificate expiration (weekly on Friday at 10:00 AM)
+0 10 * * 5 openssl x509 -in /etc/ssl/certs/yourdomain.com.crt -noout -checkend 2592000 || echo "SSL certificate expires within 30 days" | mail -s "SSL Certificate Expiration Warning" admin@yourdomain.com
+
+# Log rotation (daily at 11:59 PM)
+59 23 * * * /usr/sbin/logrotate /etc/logrotate.d/kids-store
+
+# Weekly maintenance tasks (Sunday at 4:00 AM)
+0 4 * * 0 cd /var/www/kids-store && php artisan maintenance:weekly >> /var/log/kids-store-maintenance.log 2>&1

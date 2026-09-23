@@ -1,0 +1,163 @@
+version: 2
+
+updates:
+  # Composer dependencies
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Riyadh"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "HA1234098765"
+    assignees:
+      - "HA1234098765"
+    labels:
+      - "dependencies"
+      - "php"
+      - "composer"
+    commit-message:
+      prefix: "🔄"
+      include: "scope"
+    ignore:
+      # Ignore major version updates for Laravel
+      - dependency-name: "laravel/framework"
+        update-types: ["version-update:semver-major"]
+      # Ignore patch updates for stable packages
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
+    groups:
+      laravel:
+        patterns:
+          - "laravel/*"
+          - "illuminate/*"
+        update-types:
+          - "minor"
+          - "patch"
+      security:
+        patterns:
+          - "*"
+        dependency-type: "direct"
+        update-types:
+          - "security"
+      development:
+        patterns:
+          - "*"
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # NPM dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "09:00"
+      timezone: "Asia/Riyadh"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "HA1234098765"
+    assignees:
+      - "HA1234098765"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "npm"
+    commit-message:
+      prefix: "📦"
+      include: "scope"
+    ignore:
+      # Ignore major version updates for build tools
+      - dependency-name: "vite"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "webpack"
+        update-types: ["version-update:semver-major"]
+      # Ignore patch updates for stable packages
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
+    groups:
+      build-tools:
+        patterns:
+          - "vite"
+          - "webpack*"
+          - "@vitejs/*"
+          - "rollup*"
+        update-types:
+          - "minor"
+          - "patch"
+      ui-frameworks:
+        patterns:
+          - "bootstrap*"
+          - "jquery*"
+          - "@popperjs/*"
+        update-types:
+          - "minor"
+          - "patch"
+      development:
+        patterns:
+          - "*"
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "09:00"
+      timezone: "Asia/Riyadh"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "HA1234098765"
+    assignees:
+      - "HA1234098765"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "ci-cd"
+    commit-message:
+      prefix: "🔧"
+      include: "scope"
+    groups:
+      actions:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+          - "major"
+
+  # Docker (if using)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+      time: "09:00"
+      timezone: "Asia/Riyadh"
+    open-pull-requests-limit: 2
+    reviewers:
+      - "HA1234098765"
+    assignees:
+      - "HA1234098765"
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "🐳"
+      include: "scope"
+    ignore:
+      # Only update patch versions for base images
+      - dependency-name: "php"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "nginx"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "mysql"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]

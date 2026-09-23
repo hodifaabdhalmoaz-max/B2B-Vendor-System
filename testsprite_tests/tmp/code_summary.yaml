@@ -1,0 +1,52 @@
+version: "2"
+type: backend
+tech_stack:
+  - php
+  - laravel
+  - mysql
+features:
+  - name: Public Storefront API
+    description: Public routes for shopping, products, categories, brands, and basic pages.
+    files:
+      - routes/web.php
+      - app/Http/Controllers/HomeController.php
+      - app/Http/Controllers/ShopController.php
+    endpoints:
+      - method: GET
+        path: /shop
+        description: List products
+        auth_required: false
+      - method: GET
+        path: /shop/category/{slug}
+        description: Get products by category
+        auth_required: false
+  - name: Cart and Checkout
+    description: Management of the shopping cart and checkout process.
+    files:
+      - routes/web.php
+      - app/Http/Controllers/CartController.php
+    endpoints:
+      - method: POST
+        path: /cart/add
+        description: Add product to cart
+        auth_required: false
+      - method: POST
+        path: /place-an-order
+        description: Place an order from the cart
+        auth_required: true
+  - name: Admin Dashboard
+    description: Admin features to manage products, categories, brands, orders, and coupons.
+    files:
+      - routes/web.php
+      - app/Http/Controllers/AdminController.php
+      - app/Http/Controllers/Admin/OrderController.php
+    endpoints:
+      - method: GET
+        path: /admin/products
+        description: Admin product list
+        auth_required: true
+      - method: POST
+        path: /admin/product/store
+        description: Add new product
+        auth_required: true
+known_limitations: []

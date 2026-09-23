@@ -1,0 +1,103 @@
+# ===== Laravel Framework =====
+/.phpunit.cache
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.phpactor.json
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+
+# ===== Environment Files =====
+.env
+.env.backup
+.env.production
+.env.local
+.env.testing
+.env.staging
+.env.hostinger
+*.rar
+
+# ===== IDE Files =====
+/.fleet
+/.idea
+/.vscode
+/.zed
+*.swp
+*.swo
+*~
+_ide_helper.php
+_ide_helper_models.php
+.phpstorm.meta.php
+
+# ===== Security & Sensitive Files =====
+/storage/logs/*.log
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/app/backups/*
+/bootstrap/cache/*
+
+# ===== Database & Backups =====
+*.sql
+!kids_store.sql
+*.sqlite
+*.db
+/database/*.sqlite
+/storage/backups/*
+/backups/*
+
+# ===== Uploads & Media =====
+/public/uploads/*
+!/public/uploads/.gitkeep
+/storage/app/public/uploads/*
+
+# ===== System Files =====
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ===== Composer =====
+composer.phar
+/vendor/
+
+# ===== NPM =====
+/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===== Build Files =====
+/public/mix-manifest.json
+/public/build/
+/public/hot
+
+# ===== Cache Files =====
+/storage/framework/cache/data/
+/storage/framework/sessions/
+/storage/framework/views/
+/bootstrap/cache/
+
+# ===== Logs =====
+/storage/logs/
+*.log
+
+# ===== Testing =====
+/coverage/
+.phpunit.result.cache
+/tests/coverage/
+
+# ===== Documentation (keep examples) =====
+# Keep .example files but ignore actual config
+!.env.example
+!.env.production.example

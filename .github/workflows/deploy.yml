@@ -1,0 +1,173 @@
+name: 🚀 Production Deployment
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+
+jobs:
+  deploy:
+    name: 🚀 Deploy to ${{ github.event.inputs.environment || 'production' }}
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'production' }}
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 🐘 Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.1
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, mysql, bcmath, soap, intl, gd, exif, iconv, redis
+
+    - name: 🎼 Install Composer dependencies
+      run: composer install --no-dev --optimize-autoloader --no-interaction
+
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: 📦 Install and build assets
+      run: |
+        npm ci
+        npm run build
+
+    - name: ⚙️ Prepare deployment
+      run: |
+        echo "APP_ENV=production" > .env.production
+        echo "APP_DEBUG=false" >> .env.production
+        echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env.production
+        echo "APP_URL=${{ secrets.APP_URL }}" >> .env.production
+        echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env.production
+        echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env.production
+        echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env.production
+        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env.production
+        echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> .env.production
+        echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> .env.production
+        echo "MAIL_HOST=${{ secrets.MAIL_HOST }}" >> .env.production
+        echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> .env.production
+        echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env.production
+        echo "SECURITY_HEADERS_ENABLED=true" >> .env.production
+        echo "FORCE_HTTPS=true" >> .env.production
+        echo "TWO_FACTOR_ENABLED=true" >> .env.production
+        echo "BACKUP_ENABLED=true" >> .env.production
+        echo "MONITORING_ENABLED=true" >> .env.production
+
+    - name: 🗄️ Run database migrations
+      run: |
+        php artisan migrate --force --no-interaction
+        php artisan config:cache
+        php artisan route:cache
+        php artisan view:cache
+
+    - name: 🔒 Run security checks
+      run: |
+        php artisan security:audit
+        php artisan optimize:performance
+
+    - name: 📦 Create deployment package
+      run: |
+        tar -czf deployment.tar.gz \
+          --exclude='.git' \
+          --exclude='node_modules' \
+          --exclude='tests' \
+          --exclude='.github' \
+          --exclude='storage/logs/*' \
+          --exclude='storage/framework/cache/*' \
+          --exclude='storage/framework/sessions/*' \
+          --exclude='storage/framework/views/*' \
+          .
+
+    - name: 📤 Upload to server
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        source: "deployment.tar.gz"
+        target: "/tmp/"
+
+    - name: 🚀 Deploy on server
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        script: |
+          cd /var/www/kids-store
+          
+          # Backup current version
+          sudo cp -r . ../kids-store-backup-$(date +%Y%m%d_%H%M%S)
+          
+          # Extract new version
+          sudo tar -xzf /tmp/deployment.tar.gz -C .
+          
+          # Set permissions
+          sudo chown -R www-data:www-data .
+          sudo chmod -R 755 .
+          sudo chmod -R 775 storage bootstrap/cache
+          sudo chmod 600 .env.production
+          
+          # Copy production environment
+          sudo cp .env.production .env
+          
+          # Run Laravel commands
+          php artisan migrate --force
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+          php artisan optimize:performance
+          
+          # Restart services
+          sudo systemctl reload nginx
+          sudo systemctl restart php8.1-fpm
+          sudo systemctl restart redis-server
+          
+          # Create backup
+          php artisan backup:secure --encrypt
+          
+          # Clean up
+          rm /tmp/deployment.tar.gz
+          
+          echo "✅ Deployment completed successfully!"
+
+    - name: 🧪 Post-deployment tests
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        script: |
+          cd /var/www/kids-store
+          
+          # Test application health
+          curl -f ${{ secrets.APP_URL }}/health || exit 1
+          
+          # Run security audit
+          php artisan security:audit
+          
+          # Test database connection
+          php artisan tinker --execute="DB::connection()->getPdo();"
+          
+          echo "✅ Post-deployment tests passed!"
+
+    - name: 📢 Notify deployment status
+      if: always()
+      run: |
+        if [ ${{ job.status }} == 'success' ]; then
+          echo "✅ Deployment to ${{ github.event.inputs.environment || 'production' }} completed successfully!"
+        else
+          echo "❌ Deployment to ${{ github.event.inputs.environment || 'production' }} failed!"
+        fi

@@ -1,0 +1,161 @@
+name: ✨ طلب ميزة جديدة
+description: اقترح ميزة جديدة لمتجر الأطفال
+title: "[FEATURE] "
+labels: ["enhancement", "needs-review"]
+assignees:
+  - HA1234098765
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        شكراً لك على اقتراح ميزة جديدة! نحن نقدر أفكارك لتحسين متجر الأطفال.
+
+  - type: input
+    id: title
+    attributes:
+      label: 🎯 عنوان الميزة
+      description: عنوان مختصر وواضح للميزة المقترحة
+      placeholder: مثال: إضافة نظام تقييم المنتجات
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 🤔 المشكلة المحلولة
+      description: ما المشكلة التي تحلها هذه الميزة؟
+      placeholder: |
+        أواجه مشكلة في...
+        أو
+        سيكون من الرائع لو كان بإمكاني...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 💡 الحل المقترح
+      description: وصف مفصل للميزة المقترحة
+      placeholder: أقترح إضافة...
+    validations:
+      required: true
+
+  - type: textarea
+    id: benefits
+    attributes:
+      label: 🎁 الفوائد المتوقعة
+      description: ما الفوائد التي ستجلبها هذه الميزة؟
+      placeholder: |
+        - تحسين تجربة المستخدم
+        - زيادة المبيعات
+        - توفير الوقت
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 📂 فئة الميزة
+      description: إلى أي فئة تنتمي هذه الميزة؟
+      options:
+        - واجهة المستخدم (UI/UX)
+        - الأمان
+        - الأداء
+        - إدارة المنتجات
+        - نظام الدفع
+        - التقارير والإحصائيات
+        - إدارة المستخدمين
+        - التسويق
+        - أخرى
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: ⭐ الأولوية
+      description: ما مدى أهمية هذه الميزة؟
+      options:
+        - منخفضة - ميزة لطيفة لكن ليست ضرورية
+        - متوسطة - ستحسن التجربة بشكل ملحوظ
+        - عالية - مهمة لنجاح المشروع
+        - حرجة - ضرورية للغاية
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: 🔧 التعقيد المتوقع
+      description: ما مدى تعقيد تطوير هذه الميزة؟
+      options:
+        - بسيط - يمكن تطويره في يوم واحد
+        - متوسط - يحتاج أسبوع إلى أسبوعين
+        - معقد - يحتاج شهر أو أكثر
+        - غير متأكد
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 🔄 البدائل المدروسة
+      description: هل فكرت في حلول أو بدائل أخرى؟
+      placeholder: فكرت في البدائل التالية...
+
+  - type: textarea
+    id: mockups
+    attributes:
+      label: 🎨 تصاميم أو مخططات
+      description: إن أمكن، أضف تصاميم أو مخططات للميزة
+      placeholder: اسحب وأفلت الصور هنا أو الصق الروابط
+
+  - type: textarea
+    id: technical
+    attributes:
+      label: ⚙️ التفاصيل التقنية
+      description: أي تفاصيل تقنية أو اقتراحات للتطوير
+      placeholder: |
+        - استخدام تقنية معينة
+        - تعديل قاعدة البيانات
+        - إضافة API جديد
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: ✅ معايير القبول
+      description: كيف نعرف أن الميزة تم تطويرها بنجاح؟
+      placeholder: |
+        - يمكن للمستخدم أن...
+        - النظام يجب أن...
+        - الأداء يجب أن...
+
+  - type: checkboxes
+    id: impact
+    attributes:
+      label: 📊 التأثير المتوقع
+      description: ما هي المجالات التي ستتأثر بهذه الميزة؟
+      options:
+        - label: واجهة المستخدم
+        - label: قاعدة البيانات
+        - label: الأمان
+        - label: الأداء
+        - label: API
+        - label: التوثيق
+        - label: الاختبارات
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: ✅ التحقق
+      description: يرجى التأكد من النقاط التالية
+      options:
+        - label: لقد بحثت في Issues الموجودة ولم أجد طلب مماثل
+          required: true
+        - label: لقد قرأت دليل المساهمة
+          required: true
+        - label: هذا طلب ميزة وليس تقرير خطأ
+          required: true
+        - label: الميزة تتماشى مع أهداف المشروع
+          required: true

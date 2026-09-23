@@ -1,0 +1,81 @@
+# robots.txt for متجر الأطفال
+User-agent: *
+
+# السماح بالوصول للصفحات العامة
+Allow: /
+Allow: /shop
+Allow: /products
+Allow: /categories
+Allow: /brands
+Allow: /about
+Allow: /contact
+Allow: /privacy
+Allow: /terms
+
+# منع الوصول للمجلدات الحساسة
+Disallow: /admin/
+Disallow: /api/
+Disallow: /storage/
+Disallow: /vendor/
+Disallow: /config/
+Disallow: /database/
+Disallow: /resources/
+Disallow: /bootstrap/
+Disallow: /app/
+Disallow: /tests/
+Disallow: /.env
+Disallow: /.git/
+Disallow: /composer.json
+Disallow: /composer.lock
+Disallow: /artisan
+Disallow: /phpunit.xml
+
+# منع الوصول لصفحات المستخدمين
+Disallow: /login
+Disallow: /register
+Disallow: /password/
+Disallow: /user/
+Disallow: /profile/
+Disallow: /cart
+Disallow: /checkout
+Disallow: /wishlist
+Disallow: /orders
+
+# منع الوصول لملفات النظام
+Disallow: /*.log$
+Disallow: /*.sql$
+Disallow: /*.bak$
+Disallow: /*.tmp$
+Disallow: /*?*
+
+# منع محركات البحث الضارة
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# السماح لمحركات البحث الموثوقة
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /user/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /user/
+
+# خريطة الموقع
+Sitemap: https://your-domain.com/sitemap.xml
+
+# معدل الزحف (اختياري)
+Crawl-delay: 1

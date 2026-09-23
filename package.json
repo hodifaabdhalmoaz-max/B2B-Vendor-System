@@ -1,0 +1,25 @@
+{
+    "name": "kids-store",
+    "version": "1.0.0",
+    "description": "متجر الأطفال الإلكتروني - منصة تجارة إلكترونية متكاملة لمنتجات الأطفال",
+    "author": {
+        "name": "حذيفة الحذيفي",
+        "email": "hodifa.alhudaifi@example.com",
+        "url": "https://www.hodifa-dev.com"
+    },
+    "license": "MIT",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "@popperjs/core": "^2.11.6",
+        "axios": "^1.7.4",
+        "bootstrap": "^5.2.3",
+        "laravel-vite-plugin": "^1.0",
+        "sass": "^1.56.1",
+        "vite": "^5.0"
+    }
+}

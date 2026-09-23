@@ -1,0 +1,364 @@
+/* Print Styles for Arabic and English */
+
+@media print {
+    /* General Print Styles */
+    body {
+        background: #fff !important;
+        color: #000 !important;
+        font-size: 12pt !important;
+        line-height: 1.5 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Hide unnecessary elements */
+    header, 
+    footer, 
+    .navigation, 
+    .header-tools, 
+    .mobile-nav-activator, 
+    .product-single__addtocart, 
+    .product-single__prev-next,
+    .products-carousel,
+    .footer__widgets,
+    .footer__bottom,
+    .language-switcher,
+    .search-field,
+    .breadcrumb,
+    .shop-acs,
+    .shop-sidebar,
+    .shop-pagination,
+    .cart-table__actions,
+    .checkout-form__actions,
+    .order-confirmation__actions,
+    .admin-sidebar,
+    .admin-header,
+    .admin-footer,
+    .btn-back-to-top,
+    .whatsapp-button,
+    .social-share,
+    .product-single__details-tab .nav-tabs,
+    .product-single__details-tab .tab-content .tab-pane:not(.active),
+    .product-single__image-thumbs,
+    .product-single__image-main .swiper-button-next,
+    .product-single__image-main .swiper-button-prev,
+    .product-single__image-main .swiper-pagination,
+    .product-single__meta-info .meta-item:not(.sku, .availability),
+    .product-single__reviews-form,
+    .product-single__reviews-pagination,
+    .cart-table__actions,
+    .cart-table__coupon,
+    .cart-table__update,
+    .checkout-form__payment-methods .payment-method:not(.active),
+    .checkout-form__payment-methods .payment-method-header,
+    .checkout-form__payment-methods .payment-method-body:not(.active),
+    .order-confirmation__actions,
+    .order-confirmation__print,
+    .order-confirmation__whatsapp,
+    .order-confirmation__email,
+    .order-confirmation__track,
+    .order-confirmation__return,
+    .order-confirmation__cancel,
+    .order-confirmation__reorder,
+    .order-confirmation__review,
+    .order-confirmation__share,
+    .order-confirmation__download,
+    .order-confirmation__invoice,
+    .order-confirmation__receipt,
+    .order-confirmation__shipping-label,
+    .order-confirmation__packing-slip,
+    .order-confirmation__gift-receipt,
+    .order-confirmation__gift-message,
+    .order-confirmation__gift-wrap,
+    .order-confirmation__gift-options,
+    .order-confirmation__gift-card,
+    .order-confirmation__gift-certificate,
+    .order-confirmation__gift-voucher,
+    .order-confirmation__gift-coupon,
+    .order-confirmation__gift-discount,
+    .order-confirmation__gift-promotion,
+    .order-confirmation__gift-offer,
+    .order-confirmation__gift-deal,
+    .order-confirmation__gift-special,
+    .order-confirmation__gift-sale,
+    .order-confirmation__gift-clearance,
+    .order-confirmation__gift-closeout,
+    .order-confirmation__gift-liquidation,
+    .order-confirmation__gift-overstock,
+    .order-confirmation__gift-surplus,
+    .order-confirmation__gift-excess,
+    .order-confirmation__gift-remainder,
+    .order-confirmation__gift-leftover,
+    .order-confirmation__gift-remaining,
+    .order-confirmation__gift-residual,
+    .order-confirmation__gift-residue,
+    .order-confirmation__gift-rest,
+    .order-confirmation__gift-balance,
+    .order-confirmation__gift-remnant,
+    .order-confirmation__gift-fragment,
+    .order-confirmation__gift-piece,
+    .order-confirmation__gift-portion,
+    .order-confirmation__gift-segment,
+    .order-confirmation__gift-section,
+    .order-confirmation__gift-division,
+    .order-confirmation__gift-part,
+    .order-confirmation__gift-chunk,
+    .order-confirmation__gift-bit,
+    .order-confirmation__gift-morsel,
+    .order-confirmation__gift-scrap,
+    .order-confirmation__gift-shred,
+    .order-confirmation__gift-sliver,
+    .order-confirmation__gift-splinter,
+    .order-confirmation__gift-chip,
+    .order-confirmation__gift-flake,
+    .order-confirmation__gift-crumb,
+    .order-confirmation__gift-grain,
+    .order-confirmation__gift-granule,
+    .order-confirmation__gift-particle,
+    .order-confirmation__gift-speck,
+    .order-confirmation__gift-atom,
+    .order-confirmation__gift-molecule,
+    .order-confirmation__gift-corpuscle,
+    .order-confirmation__gift-globule,
+    .order-confirmation__gift-mote,
+    .order-confirmation__gift-mite,
+    .order-confirmation__gift-tittle,
+    .order-confirmation__gift-whit,
+    .order-confirmation__gift-iota,
+    .order-confirmation__gift-jot,
+    .order-confirmation__gift-modicum,
+    .order-confirmation__gift-ounce,
+    .order-confirmation__gift-dribble,
+    .order-confirmation__gift-driblet,
+    .order-confirmation__gift-drop,
+    .order-confirmation__gift-droplet,
+    .order-confirmation__gift-drip,
+    .order-confirmation__gift-dab,
+    .order-confirmation__gift-dapple,
+    .order-confirmation__gift-dash,
+    .order-confirmation__gift-dollop,
+    .order-confirmation__gift-dot,
+    .order-confirmation__gift-fleck,
+    .order-confirmation__gift-flyspeck,
+    .order-confirmation__gift-fragment,
+    .order-confirmation__gift-grain,
+    .order-confirmation__gift-granule,
+    .order-confirmation__gift-nugget,
+    .order-confirmation__gift-particle,
+    .order-confirmation__gift-patch,
+    .order-confirmation__gift-scrap,
+    .order-confirmation__gift-scruple,
+    .order-confirmation__gift-shade,
+    .order-confirmation__gift-shadow,
+    .order-confirmation__gift-shred,
+    .order-confirmation__gift-sliver,
+    .order-confirmation__gift-smidgen,
+    .order-confirmation__gift-snippet,
+    .order-confirmation__gift-speck,
+    .order-confirmation__gift-splash,
+    .order-confirmation__gift-splinter,
+    .order-confirmation__gift-spot,
+    .order-confirmation__gift-sprinkling,
+    .order-confirmation__gift-tad,
+    .order-confirmation__gift-tidbit,
+    .order-confirmation__gift-tinge,
+    .order-confirmation__gift-tint,
+    .order-confirmation__gift-touch,
+    .order-confirmation__gift-trace,
+    .order-confirmation__gift-vestige,
+    .order-confirmation__gift-whiff {
+        display: none !important;
+    }
+    
+    /* Show only essential content */
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    .row {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    .col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12,
+    .col-sm, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12,
+    .col-md, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12,
+    .col-lg, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12,
+    .col-xl, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12 {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Logo */
+    .logo {
+        display: block !important;
+        margin: 0 auto 20px !important;
+        text-align: center !important;
+    }
+    
+    /* Product Details */
+    .product-single__title {
+        font-size: 24pt !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .product-single__price {
+        font-size: 18pt !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .product-single__description {
+        font-size: 12pt !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .product-single__meta-info {
+        margin-bottom: 20px !important;
+    }
+    
+    .product-single__meta-info .meta-item {
+        margin-bottom: 5px !important;
+    }
+    
+    /* Cart Table */
+    .cart-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+    }
+    
+    .cart-table th,
+    .cart-table td {
+        padding: 10px !important;
+        border: 1px solid #000 !important;
+    }
+    
+    .cart-table__product-name {
+        font-weight: bold !important;
+    }
+    
+    .cart-table__product-price,
+    .cart-table__product-quantity,
+    .cart-table__product-total {
+        text-align: right !important;
+    }
+    
+    .cart-table__footer {
+        margin-top: 20px !important;
+    }
+    
+    .cart-table__footer-row {
+        display: flex !important;
+        justify-content: space-between !important;
+        margin-bottom: 5px !important;
+    }
+    
+    /* Order Confirmation */
+    .order-confirmation__title {
+        font-size: 24pt !important;
+        text-align: center !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .order-confirmation__info {
+        margin-bottom: 20px !important;
+    }
+    
+    .order-confirmation__info-item {
+        margin-bottom: 5px !important;
+    }
+    
+    .order-confirmation__table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+    }
+    
+    .order-confirmation__table th,
+    .order-confirmation__table td {
+        padding: 10px !important;
+        border: 1px solid #000 !important;
+    }
+    
+    .order-confirmation__table-product-name {
+        font-weight: bold !important;
+    }
+    
+    .order-confirmation__table-product-price,
+    .order-confirmation__table-product-quantity,
+    .order-confirmation__table-product-total {
+        text-align: right !important;
+    }
+    
+    .order-confirmation__footer {
+        margin-top: 20px !important;
+    }
+    
+    .order-confirmation__footer-row {
+        display: flex !important;
+        justify-content: space-between !important;
+        margin-bottom: 5px !important;
+    }
+    
+    /* Arabic-specific print styles */
+    [dir="rtl"] body {
+        font-family: 'Cairo', 'Jost', sans-serif !important;
+    }
+    
+    [dir="rtl"] .product-single__title,
+    [dir="rtl"] .product-single__price,
+    [dir="rtl"] .product-single__description,
+    [dir="rtl"] .product-single__meta-info .meta-item,
+    [dir="rtl"] .cart-table th,
+    [dir="rtl"] .cart-table td,
+    [dir="rtl"] .cart-table__product-name,
+    [dir="rtl"] .cart-table__footer-row,
+    [dir="rtl"] .order-confirmation__title,
+    [dir="rtl"] .order-confirmation__info-item,
+    [dir="rtl"] .order-confirmation__table th,
+    [dir="rtl"] .order-confirmation__table td,
+    [dir="rtl"] .order-confirmation__table-product-name,
+    [dir="rtl"] .order-confirmation__footer-row {
+        font-family: 'Cairo', 'Jost', sans-serif !important;
+    }
+    
+    [dir="rtl"] .cart-table__product-price,
+    [dir="rtl"] .cart-table__product-quantity,
+    [dir="rtl"] .cart-table__product-total,
+    [dir="rtl"] .order-confirmation__table-product-price,
+    [dir="rtl"] .order-confirmation__table-product-quantity,
+    [dir="rtl"] .order-confirmation__table-product-total {
+        text-align: left !important;
+    }
+    
+    /* Page breaks */
+    .product-single,
+    .cart-table,
+    .order-confirmation {
+        page-break-inside: avoid !important;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid !important;
+    }
+    
+    img {
+        page-break-inside: avoid !important;
+    }
+    
+    /* Links */
+    a {
+        text-decoration: none !important;
+        color: #000 !important;
+    }
+    
+    /* Print header and footer */
+    @page {
+        margin: 2cm !important;
+    }
+}

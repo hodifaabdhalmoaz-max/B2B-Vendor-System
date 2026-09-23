@@ -1,0 +1,178 @@
+# ===== Laravel .htaccess with Enhanced Security =====
+
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # ===== Security Headers =====
+    <IfModule mod_headers.c>
+        # Prevent clickjacking
+        Header always append X-Frame-Options SAMEORIGIN
+
+        # Prevent MIME type sniffing
+        Header always set X-Content-Type-Options nosniff
+
+        # Enable XSS protection
+        Header always set X-XSS-Protection "1; mode=block"
+
+        # Referrer Policy
+        Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+        # Remove server information
+        Header unset Server
+        Header unset X-Powered-By
+
+        # Content Security Policy is handled by Laravel SecurityHeaders middleware
+        # Do NOT set CSP here to avoid overriding the middleware's more detailed policy
+    </IfModule>
+
+    # ===== Block access to sensitive files =====
+    <FilesMatch "\.(env|git|htaccess|htpasswd|ini|log|sh|sql|bak|tmp)$">
+        Require all denied
+    </FilesMatch>
+
+    # Block access to Laravel directories
+    RewriteRule ^(app|bootstrap|config|database|resources|tests|vendor)/ - [F,L]
+
+    # Block access to composer files
+    <FilesMatch "(composer\.(json|lock)|package\.(json|lock)|yarn\.lock)$">
+        Require all denied
+    </FilesMatch>
+
+    # Block access to artisan and other PHP files in root
+    <FilesMatch "^(artisan|server\.php)$">
+        Require all denied
+    </FilesMatch>
+
+    # ===== Prevent directory browsing =====
+    Options -Indexes
+
+    # ===== Block suspicious requests =====
+    # Block requests with suspicious user agents
+    RewriteCond %{HTTP_USER_AGENT} (libwww-perl|wget|python|nikto|curl|scan|java|winhttp|clshttp|loader) [NC,OR]
+    RewriteCond %{HTTP_USER_AGENT} (%0A|%0D|%27|%3C|%3E|%00) [NC,OR]
+    RewriteCond %{HTTP_USER_AGENT} (;|<|>|'|"|\)|\(|%0A|%0D|%22|%27|%28|%3C|%3E|%00).*(libwww-perl|wget|python|nikto|curl|scan|java|winhttp|HTTrack|clshttp|archiver|loader|email|harvest|extract|grab|miner) [NC]
+    RewriteRule .* - [F,L]
+
+    # Block requests with suspicious query strings
+    RewriteCond %{QUERY_STRING} (;|<|>|'|"|\)|%0A|%0D|%22|%27|%3C|%3E|%00) [NC,OR]
+    RewriteCond %{QUERY_STRING} (union.*select|insert.*into|delete.*from|drop.*table) [NC,OR]
+    RewriteCond %{QUERY_STRING} (eval\(|base64_decode|gzinflate|file_get_contents|fopen|readfile) [NC]
+    RewriteRule .* - [F,L]
+
+    # Block requests with dangerous request methods
+    # NOTE: HEAD is allowed — used by search engines and uptime monitors
+    # NOTE: DELETE is allowed — used by Laravel route definitions
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK|DEBUG|CONNECT) [NC]
+    RewriteRule .* - [F,L]
+
+    # ===== Handle Authorization Header =====
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # ===== Redirect Trailing Slashes If Not A Folder =====
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # ===== Send Requests To Front Controller =====
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+    # ===== Cache Control =====
+    <IfModule mod_expires.c>
+        ExpiresActive On
+        ExpiresDefault "access plus 1 week"
+
+        # Images — long cache, rarely change
+        ExpiresByType image/jpg "access plus 1 year"
+        ExpiresByType image/jpeg "access plus 1 year"
+        ExpiresByType image/gif "access plus 1 year"
+        ExpiresByType image/png "access plus 1 year"
+        ExpiresByType image/webp "access plus 1 year"
+        ExpiresByType image/svg+xml "access plus 1 year"
+        ExpiresByType image/x-icon "access plus 1 year"
+
+        # CSS and JavaScript — versioned via Vite
+        ExpiresByType text/css "access plus 1 year"
+        ExpiresByType application/javascript "access plus 1 year"
+        ExpiresByType text/javascript "access plus 1 year"
+
+        # Fonts — rarely change
+        ExpiresByType font/woff "access plus 1 year"
+        ExpiresByType font/woff2 "access plus 1 year"
+        ExpiresByType application/font-woff "access plus 1 year"
+        ExpiresByType application/font-woff2 "access plus 1 year"
+        ExpiresByType font/ttf "access plus 1 year"
+        ExpiresByType font/otf "access plus 1 year"
+        ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+
+        # HTML — short cache for dynamic content
+        ExpiresByType text/html "access plus 5 minutes"
+    </IfModule>
+
+    # ===== Cache-Control Headers =====
+    <IfModule mod_headers.c>
+        # Versioned assets (Vite hashed filenames) — immutable
+        <FilesMatch "\.[0-9a-f]{8,}\.(css|js|woff2?|ttf|otf|eot)$">
+            Header set Cache-Control "public, max-age=31536000, immutable"
+        </FilesMatch>
+
+        # Images
+        <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico)$">
+            Header set Cache-Control "public, max-age=31536000"
+        </FilesMatch>
+
+        # HTML — must revalidate
+        <FilesMatch "\.(html|htm)$">
+            Header set Cache-Control "public, max-age=300, must-revalidate"
+        </FilesMatch>
+    </IfModule>
+
+    # ===== ETags =====
+    <IfModule mod_headers.c>
+        # Enable ETags for static assets
+        FileETag MTime Size
+    </IfModule>
+
+    # ===== Compression =====
+    <IfModule mod_deflate.c>
+        AddOutputFilterByType DEFLATE text/plain
+        AddOutputFilterByType DEFLATE text/html
+        AddOutputFilterByType DEFLATE text/xml
+        AddOutputFilterByType DEFLATE text/css
+        AddOutputFilterByType DEFLATE application/xml
+        AddOutputFilterByType DEFLATE application/xhtml+xml
+        AddOutputFilterByType DEFLATE application/rss+xml
+        AddOutputFilterByType DEFLATE application/javascript
+        AddOutputFilterByType DEFLATE application/x-javascript
+        AddOutputFilterByType DEFLATE text/javascript
+        AddOutputFilterByType DEFLATE application/json
+        AddOutputFilterByType DEFLATE application/ld+json
+        AddOutputFilterByType DEFLATE image/svg+xml
+        AddOutputFilterByType DEFLATE font/woff
+        AddOutputFilterByType DEFLATE font/woff2
+        AddOutputFilterByType DEFLATE application/font-woff
+        AddOutputFilterByType DEFLATE application/font-woff2
+        AddOutputFilterByType DEFLATE font/ttf
+        AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    </IfModule>
+
+</IfModule>
+
+# ===== Additional Security Measures =====
+
+# Prevent access to backup files
+<FilesMatch "\.(bak|backup|old|orig|save|swp|tmp)$">
+    Require all denied
+</FilesMatch>
+
+# Prevent access to version control files
+<FilesMatch "\.(git|svn|hg|bzr)">
+    Require all denied
+</FilesMatch>
+

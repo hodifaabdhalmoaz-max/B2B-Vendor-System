@@ -1,0 +1,82 @@
+<?php
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used during authentication for various
+    | messages that we need to display to the user. You are free to modify
+    | these language lines according to your application's requirements.
+    |
+    */
+
+    'failed' => 'بيانات الاعتماد هذه غير متطابقة مع البيانات المسجلة لدينا.',
+    'password' => 'كلمة المرور المقدمة غير صحيحة.',
+    'throttle' => 'عدد كبير جدا من محاولات الدخول. يرجى المحاولة مرة أخرى بعد :seconds ثانية.',
+    'login' => 'تسجيل الدخول',
+    'register' => 'تسجيل جديد',
+    'logout' => 'تسجيل الخروج',
+    'email' => 'البريد الإلكتروني',
+    'password' => 'كلمة المرور',
+    'confirm_password' => 'تأكيد كلمة المرور',
+    'remember_me' => 'تذكرني',
+    'forgot_password' => 'نسيت كلمة المرور؟',
+    'reset_password' => 'إعادة تعيين كلمة المرور',
+    'send_password_reset_link' => 'إرسال رابط إعادة تعيين كلمة المرور',
+    'name' => 'الاسم',
+    'username' => 'اسم المستخدم',
+    'phone' => 'رقم الهاتف',
+    'already_registered' => 'لديك حساب بالفعل؟',
+    'not_registered' => 'ليس لديك حساب؟',
+    'create_account' => 'إنشاء حساب جديد',
+    'login_with' => 'تسجيل الدخول باستخدام',
+    'register_with' => 'التسجيل باستخدام',
+    'login_success' => 'تم تسجيل الدخول بنجاح',
+    'login_failed' => 'فشل تسجيل الدخول',
+    'register_success' => 'تم التسجيل بنجاح',
+    'register_failed' => 'فشل التسجيل',
+    'logout_success' => 'تم تسجيل الخروج بنجاح',
+    'verify_email' => 'تحقق من بريدك الإلكتروني',
+    'verify_email_sent' => 'تم إرسال رابط تحقق جديد إلى بريدك الإلكتروني.',
+    'verify_email_success' => 'تم التحقق من بريدك الإلكتروني بنجاح',
+    'verify_email_failed' => 'فشل التحقق من البريد الإلكتروني',
+    'verify_email_notice' => 'قبل المتابعة، يرجى التحقق من بريدك الإلكتروني للحصول على رابط التحقق.',
+    'verify_email_not_received' => 'إذا لم تستلم البريد الإلكتروني',
+    'verify_email_request_another' => 'انقر هنا لطلب آخر',
+    'password_reset_sent' => 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني',
+    'password_reset_success' => 'تم إعادة تعيين كلمة المرور بنجاح',
+    'password_reset_failed' => 'فشل إعادة تعيين كلمة المرور',
+    'password_reset_token_invalid' => 'رمز إعادة تعيين كلمة المرور غير صالح',
+    'password_reset_token_expired' => 'رمز إعادة تعيين كلمة المرور منتهي الصلاحية',
+    'password_confirmation_mismatch' => 'تأكيد كلمة المرور غير متطابق',
+    'current_password' => 'كلمة المرور الحالية',
+    'new_password' => 'كلمة المرور الجديدة',
+    'confirm_new_password' => 'تأكيد كلمة المرور الجديدة',
+    'change_password' => 'تغيير كلمة المرور',
+    'password_changed' => 'تم تغيير كلمة المرور بنجاح',
+    'current_password_incorrect' => 'كلمة المرور الحالية غير صحيحة',
+    'account_locked' => 'تم قفل الحساب',
+    'account_locked_message' => 'تم قفل حسابك بسبب عدد كبير من محاولات تسجيل الدخول الفاشلة. يرجى المحاولة مرة أخرى بعد :minutes دقيقة.',
+    'account_inactive' => 'الحساب غير نشط',
+    'account_inactive_message' => 'حسابك غير نشط. يرجى الاتصال بالدعم للمساعدة.',
+    'account_banned' => 'الحساب محظور',
+    'account_banned_message' => 'تم حظر حسابك. يرجى الاتصال بالدعم للمساعدة.',
+    'account_deleted' => 'الحساب محذوف',
+    'account_deleted_message' => 'تم حذف حسابك. يرجى الاتصال بالدعم للمساعدة.',
+    'account_unverified' => 'الحساب غير مؤكد',
+    'account_unverified_message' => 'حسابك غير مؤكد. يرجى التحقق من بريدك الإلكتروني للحصول على رابط التأكيد.',
+    'social_login' => 'تسجيل الدخول باستخدام وسائل التواصل الاجتماعي',
+    'social_login_failed' => 'فشل تسجيل الدخول باستخدام وسائل التواصل الاجتماعي',
+    'social_login_success' => 'تم تسجيل الدخول باستخدام وسائل التواصل الاجتماعي بنجاح',
+    'social_register' => 'التسجيل باستخدام وسائل التواصل الاجتماعي',
+    'social_register_failed' => 'فشل التسجيل باستخدام وسائل التواصل الاجتماعي',
+    'social_register_success' => 'تم التسجيل باستخدام وسائل التواصل الاجتماعي بنجاح',
+    'social_account_linked' => 'تم ربط الحساب بنجاح',
+    'social_account_unlinked' => 'تم إلغاء ربط الحساب بنجاح',
+    'social_account_already_linked' => 'الحساب مرتبط بالفعل',
+    'social_account_not_linked' => 'الحساب غير مرتبط',
+    'social_account_link_failed' => 'فشل ربط الحساب',
+    'social_account_unlink_failed' => 'فشل إلغاء ربط الحساب',
+];

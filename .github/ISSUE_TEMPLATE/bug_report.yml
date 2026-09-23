@@ -1,0 +1,146 @@
+name: 🐛 الإبلاغ عن خطأ
+description: أبلغ عن خطأ لمساعدتنا في تحسين متجر الأطفال
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+assignees:
+  - HA1234098765
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        شكراً لك على الإبلاغ عن هذا الخطأ! يرجى ملء النموذج أدناه بأكبر قدر من التفاصيل.
+
+  - type: input
+    id: summary
+    attributes:
+      label: 📋 ملخص الخطأ
+      description: وصف مختصر وواضح للخطأ
+      placeholder: مثال: لا يمكن إضافة المنتج إلى السلة
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 📝 وصف مفصل
+      description: وصف مفصل للخطأ وما حدث
+      placeholder: اشرح الخطأ بالتفصيل...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 🔄 خطوات إعادة الإنتاج
+      description: خطوات إعادة إنتاج الخطأ
+      placeholder: |
+        1. اذهب إلى '...'
+        2. انقر على '...'
+        3. مرر إلى '...'
+        4. شاهد الخطأ
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: ✅ السلوك المتوقع
+      description: وصف واضح لما كان متوقعاً أن يحدث
+      placeholder: كان من المتوقع أن...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: ❌ السلوك الفعلي
+      description: وصف لما حدث فعلياً
+      placeholder: ما حدث فعلياً هو...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 🚨 مستوى الخطورة
+      description: ما مدى خطورة هذا الخطأ؟
+      options:
+        - منخفض - مشكلة تجميلية أو بسيطة
+        - متوسط - يؤثر على بعض الوظائف
+        - عالي - يؤثر على وظائف مهمة
+        - حرج - يوقف النظام أو يسبب فقدان بيانات
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: 🌐 المتصفح
+      description: أي متصفح تستخدم؟
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Opera
+        - أخرى
+    validations:
+      required: true
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: 📱 نوع الجهاز
+      description: أي نوع جهاز تستخدم؟
+      options:
+        - سطح المكتب
+        - لابتوب
+        - تابلت
+        - هاتف ذكي
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: 💻 نظام التشغيل
+      description: أي نظام تشغيل تستخدم؟
+      placeholder: مثال: Windows 11, macOS 13, Ubuntu 22.04
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 📋 سجلات الأخطاء
+      description: أي رسائل خطأ أو سجلات ذات صلة
+      placeholder: الصق هنا أي رسائل خطأ أو سجلات...
+      render: shell
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 📸 لقطات الشاشة
+      description: إن أمكن، أضف لقطات شاشة لتوضيح المشكلة
+      placeholder: اسحب وأفلت الصور هنا أو الصق الروابط
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: ℹ️ معلومات إضافية
+      description: أي معلومات أخرى قد تكون مفيدة
+      placeholder: أي تفاصيل إضافية...
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: ✅ التحقق
+      description: يرجى التأكد من النقاط التالية
+      options:
+        - label: لقد بحثت في Issues الموجودة ولم أجد مشكلة مماثلة
+          required: true
+        - label: لقد قرأت دليل المساهمة
+          required: true
+        - label: هذا خطأ حقيقي وليس طلب ميزة
+          required: true

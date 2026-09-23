@@ -1,0 +1,49 @@
+# Systemd service file for Kids Store Queue Workers
+# Place this file in /etc/systemd/system/kids-store-worker.service
+# Author: Hudhaifa Al-Hudhaifi
+
+[Unit]
+Description=Kids Store Queue Worker
+After=redis.service mysql.service
+Requires=redis.service mysql.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+Restart=always
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# Working directory
+WorkingDirectory=/var/www/kids-store
+
+# Command to run
+ExecStart=/usr/bin/php /var/www/kids-store/artisan queue:work redis --sleep=3 --tries=3 --max-time=3600 --memory=512
+
+# Reload configuration
+ExecReload=/bin/kill -USR2 $MAINPID
+
+# Environment
+Environment=LARAVEL_ENV=production
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/var/www/kids-store/storage
+ProtectHome=true
+
+# Resource limits
+LimitNOFILE=65536
+MemoryMax=1G
+CPUQuota=50%
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=kids-store-worker
+
+[Install]
+WantedBy=multi-user.target

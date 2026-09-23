@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Intervention\Image\Laravel\Facades\Image;
 
 class AdminController extends Controller
@@ -460,7 +461,7 @@ class AdminController extends Controller
     //Product
     public function products()
     {
-        $products = Product::with(['category', 'brand'])->orderBy('created_at', 'DESC')->paginate(10);
+        $products = Product::with(['category', 'brand'])->withCount('variants')->orderBy('created_at', 'DESC')->paginate(10);
 
         return view('admin.products', compact('products'));
     }
@@ -674,6 +675,9 @@ class AdminController extends Controller
         $colorIds = $this->requestedProductColorIds($request);
 
         $product = Product::findOrFail($request->id);
+        $sizeIds = $this->requestedProductSizeIds($request);
+        $this->guardActiveVariantDimensionsRemainAttached($product, $colorIds, $sizeIds);
+
         $product->name = $request->name;
         $product->slug = $request->slug;
         $product->short_description = $request->short_description;
@@ -747,9 +751,9 @@ class AdminController extends Controller
         $this->pruneDetachedProductColorImages($product, $colorIds);
         $this->storeProductColorImages($request, $product);
 
-        if ($request->has('sizes')) {
-            $product->sizes()->sync($request->sizes);
-            $sizeNames = Size::whereIn('id', $request->sizes)->pluck('name')->toArray();
+        if ($sizeIds !== []) {
+            $product->sizes()->sync($sizeIds);
+            $sizeNames = Size::whereIn('id', $sizeIds)->pluck('name')->toArray();
             $product->size = implode(', ', $sizeNames);
         } else {
             $product->sizes()->detach();
@@ -767,6 +771,13 @@ class AdminController extends Controller
     public function product_delete($id)
     {
         $product = Product::findOrFail($id);
+
+        if ($product->variants()->exists()) {
+            return redirect()
+                ->route('admin.products')
+                ->withErrors(['product' => __('This product has variants. Safely remove all variants before deleting the product; deactivate variants that must be retained.')]);
+        }
+
         if ($product->image) {
             $this->imageService->deleteProductImage($product->image);
         }
@@ -839,6 +850,51 @@ class AdminController extends Controller
             ->pluck('id')
             ->map(fn ($id) => (int) $id)
             ->all();
+    }
+
+    private function requestedProductSizeIds(Request $request): array
+    {
+        return collect($request->input('sizes', []))
+            ->map(fn ($id) => (int) $id)
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+    }
+
+    private function guardActiveVariantDimensionsRemainAttached(Product $product, array $colorIds, array $sizeIds): void
+    {
+        $activeColorIds = $product->variants()
+            ->active()
+            ->whereNotNull('color_id')
+            ->pluck('color_id')
+            ->map(fn ($id) => (int) $id)
+            ->unique()
+            ->all();
+
+        $detachedColorIds = array_values(array_diff($activeColorIds, $colorIds));
+
+        if ($detachedColorIds !== []) {
+            throw ValidationException::withMessages([
+                'colors' => __('An active variant still uses one of the removed colors. Deactivate or edit that variant first.'),
+            ]);
+        }
+
+        $activeSizeIds = $product->variants()
+            ->active()
+            ->whereNotNull('size_id')
+            ->pluck('size_id')
+            ->map(fn ($id) => (int) $id)
+            ->unique()
+            ->all();
+
+        $detachedSizeIds = array_values(array_diff($activeSizeIds, $sizeIds));
+
+        if ($detachedSizeIds !== []) {
+            throw ValidationException::withMessages([
+                'sizes' => __('An active variant still uses one of the removed sizes. Deactivate or edit that variant first.'),
+            ]);
+        }
     }
 
     private function deleteRemovedProductColorImages(Request $request, Product $product): void
@@ -1070,6 +1126,13 @@ class AdminController extends Controller
     public function color_delete($id)
     {
         $color = Color::findOrFail($id);
+
+        if ($color->productVariants()->exists()) {
+            return redirect()
+                ->route('admin.colors')
+                ->withErrors(['color' => __('This color is referenced by product variants. Remove or reassign variants without history; colors used by historical variants must remain.')]);
+        }
+
         $color->delete();
 
         Cache::forget('search_filters');
@@ -1146,6 +1209,13 @@ class AdminController extends Controller
     public function size_delete($id)
     {
         $size = Size::findOrFail($id);
+
+        if ($size->productVariants()->exists()) {
+            return redirect()
+                ->route('admin.sizes')
+                ->withErrors(['size' => __('This size is referenced by product variants. Remove or reassign variants without history; sizes used by historical variants must remain.')]);
+        }
+
         $size->delete();
 
         Cache::forget('search_filters');

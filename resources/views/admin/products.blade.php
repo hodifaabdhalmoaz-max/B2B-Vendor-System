@@ -39,6 +39,9 @@
                     @if(Session::has('status'))
                          <p class="alert alert-success">{{Session::get('status')}}</p>
                     @endif
+                    @error('product')
+                         <p class="alert alert-danger">{{ $message }}</p>
+                    @enderror
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -93,6 +96,12 @@
                                     <a href="{{route('admin.product.edit',['id'=>$product->id])}}">
                                         <div class="item edit">
                                             <i data-lucide="edit" style="width: 16px; height: 16px;"></i>
+                                        </div>
+                                    </a>
+                                    <a href="{{ route('admin.products.variants.index', $product) }}" title="{{ __('Manage Variants') }}">
+                                        <div class="item">
+                                            <i data-lucide="boxes" style="width: 16px; height: 16px;"></i>
+                                            <span class="text-tiny">{{ $product->variants_count }}</span>
                                         </div>
                                     </a>
                                     <form action="{{route('admin.product.delete',['id'=>$product->id])}}" method="POST">

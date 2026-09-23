@@ -48,6 +48,10 @@ class StoreResellerRequest extends FormRequest
     {
         return [
             function (Validator $validator): void {
+                if ($this->username && $this->hasMobileIdentifierCollision($this->username)) {
+                    $validator->errors()->add('username', __('validation.unique', ['attribute' => 'username']));
+                }
+
                 if (! $this->mobile) {
                     return;
                 }
@@ -57,5 +61,25 @@ class StoreResellerRequest extends FormRequest
                 }
             },
         ];
+    }
+
+    private function hasMobileIdentifierCollision(string $identifier): bool
+    {
+        $normalizedMobile = User::normalizeMobile($identifier);
+
+        if (! $normalizedMobile || ! preg_match('/^\d{7,20}$/', $normalizedMobile)) {
+            return false;
+        }
+
+        return User::query()
+            ->where(function ($query) use ($normalizedMobile): void {
+                $query
+                    ->where('mobile', $normalizedMobile)
+                    ->orWhereRaw(
+                        "replace(replace(replace(replace(replace(mobile, ' ', ''), '-', ''), '(', ''), ')', ''), '.', '') = ?",
+                        [$normalizedMobile]
+                    );
+            })
+            ->exists();
     }
 }

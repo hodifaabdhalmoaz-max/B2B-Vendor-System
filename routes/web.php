@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdPlacementController;
 use App\Http\Controllers\Admin\MarketingCampaignController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\ProductVariantController;
 use App\Http\Controllers\Admin\ResellerController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
@@ -180,6 +181,14 @@ Route::middleware(['auth', AuthAdmin::class, 'smart.throttle:admin'])->group(fun
     Route::get('/admin/product/edit/{id}', [AdminController::class, 'product_edit'])->name('admin.product.edit');
     Route::put('/admin/product/update', [AdminController::class, 'product_update'])->name('admin.product.update');
     Route::delete('/admin/product/{id}/delete', [AdminController::class, 'product_delete'])->name('admin.product.delete');
+    Route::get('/admin/products/{product}/variants', [ProductVariantController::class, 'index'])->name('admin.products.variants.index');
+    Route::get('/admin/products/{product}/variants/create', [ProductVariantController::class, 'create'])->name('admin.products.variants.create');
+    Route::post('/admin/products/{product}/variants', [ProductVariantController::class, 'store'])->name('admin.products.variants.store');
+    Route::post('/admin/products/{product}/variants/bulk', [ProductVariantController::class, 'bulkStore'])->name('admin.products.variants.bulk-store');
+    Route::put('/admin/products/{product}/variants/{variant}', [ProductVariantController::class, 'update'])->scopeBindings()->name('admin.products.variants.update');
+    Route::post('/admin/products/{product}/variants/{variant}/activate', [ProductVariantController::class, 'activate'])->scopeBindings()->name('admin.products.variants.activate');
+    Route::post('/admin/products/{product}/variants/{variant}/deactivate', [ProductVariantController::class, 'deactivate'])->scopeBindings()->name('admin.products.variants.deactivate');
+    Route::delete('/admin/products/{product}/variants/{variant}', [ProductVariantController::class, 'destroy'])->scopeBindings()->name('admin.products.variants.destroy');
 
     //Color
     Route::get('/admin/colors', [AdminController::class, 'colors'])->name('admin.colors');

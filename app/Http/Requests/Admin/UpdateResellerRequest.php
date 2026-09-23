@@ -49,16 +49,41 @@ class UpdateResellerRequest extends FormRequest
     {
         return [
             function (Validator $validator): void {
+                $resellerId = (int) $this->route('reseller')?->id;
+
+                if ($this->username && $this->hasMobileIdentifierCollision($this->username, $resellerId)) {
+                    $validator->errors()->add('username', __('validation.unique', ['attribute' => 'username']));
+                }
+
                 if (! $this->mobile) {
                     return;
                 }
-
-                $resellerId = (int) $this->route('reseller')?->id;
 
                 if (User::query()->whereLoginIdentifier($this->mobile)->whereKeyNot($resellerId)->exists()) {
                     $validator->errors()->add('mobile', __('validation.unique', ['attribute' => 'mobile']));
                 }
             },
         ];
+    }
+
+    private function hasMobileIdentifierCollision(string $identifier, int $ignoreUserId): bool
+    {
+        $normalizedMobile = User::normalizeMobile($identifier);
+
+        if (! $normalizedMobile || ! preg_match('/^\d{7,20}$/', $normalizedMobile)) {
+            return false;
+        }
+
+        return User::query()
+            ->whereKeyNot($ignoreUserId)
+            ->where(function ($query) use ($normalizedMobile): void {
+                $query
+                    ->where('mobile', $normalizedMobile)
+                    ->orWhereRaw(
+                        "replace(replace(replace(replace(replace(mobile, ' ', ''), '-', ''), '(', ''), ')', ''), '.', '') = ?",
+                        [$normalizedMobile]
+                    );
+            })
+            ->exists();
     }
 }

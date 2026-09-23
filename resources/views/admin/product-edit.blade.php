@@ -27,6 +27,20 @@
                 </li>
             </ul>
         </div>
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <div class="wg-box mb-20">
+            <a class="tf-button style-1 w208" href="{{ route('admin.products.variants.index', $product) }}">
+                <i data-lucide="boxes" style="width: 16px; height: 16px;"></i>{{ __('Manage Variants') }}
+            </a>
+        </div>
         <!-- form-add-product -->
         <form class="tf-section-2 form-add-product" method="POST" enctype="multipart/form-data" action="{{route('admin.product.update')}}">
             @csrf

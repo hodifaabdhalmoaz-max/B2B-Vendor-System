@@ -39,7 +39,10 @@
                     @if(Session::has('status'))
                     <p class="alert alert-success">{{Session::get('status')}}</p>
                     @endif
-                    <table class="table table-striped table-bordered">
+                    @error('size')
+                    <p class="alert alert-danger">{{ $message }}</p>
+                    @enderror
+                <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>#</th>

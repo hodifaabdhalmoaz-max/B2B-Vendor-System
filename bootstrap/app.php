@@ -76,6 +76,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'login.protection' => \App\Http\Middleware\LoginAttemptProtection::class,
             '2fa' => \App\Http\Middleware\TwoFactorAuthentication::class,
             'bot.protection' => \App\Http\Middleware\BotProtection::class,
+            'reseller' => \App\Http\Middleware\EnsureReseller::class,
+            'force.password.change' => \App\Http\Middleware\ForcePasswordChange::class,
         ]);
     })
     ->withProviders([

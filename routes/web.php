@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdPlacementController;
 use App\Http\Controllers\Admin\MarketingCampaignController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\ResellerController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryPageController;
@@ -10,6 +11,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Marketing\CampaignAssetImageController;
 use App\Http\Controllers\MessageCenterController;
+use App\Http\Controllers\Reseller\DashboardController as ResellerDashboardController;
+use App\Http\Controllers\Reseller\PasswordController as ResellerPasswordController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
@@ -18,7 +21,7 @@ use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Auth::routes(['verify' => true]);
+Auth::routes(['verify' => true, 'register' => false]);
 
 // // Redirect / → /home (permanent 301)
 // Route::permanentRedirect('/', '/home');
@@ -124,6 +127,18 @@ Route::middleware(['auth', 'smart.throttle:user_dashboard'])->group(function () 
     Route::post('/product/review/{product_id}', [ReviewController::class, 'store'])->name('product.review.store');
 });
 
+Route::prefix('reseller')
+    ->name('reseller.')
+    ->middleware(['auth', 'reseller', 'smart.throttle:user_dashboard'])
+    ->group(function () {
+        Route::get('/password/change', [ResellerPasswordController::class, 'edit'])->name('password.edit');
+        Route::post('/password/change', [ResellerPasswordController::class, 'update'])->name('password.update');
+
+        Route::middleware('force.password.change')->group(function () {
+            Route::get('/', ResellerDashboardController::class)->name('index');
+        });
+    });
+
 // ═══════════════════════════════════════════════════════════
 // Admin — very generous limit (200/min base × 5 admin multiplier = 1000/min)
 // Admins should never be rate-limited during normal operations
@@ -131,6 +146,17 @@ Route::middleware(['auth', 'smart.throttle:user_dashboard'])->group(function () 
 Route::middleware(['auth', AuthAdmin::class, 'smart.throttle:admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    Route::get('/admin/resellers', [ResellerController::class, 'index'])->name('admin.resellers.index');
+    Route::get('/admin/resellers/create', [ResellerController::class, 'create'])->name('admin.resellers.create');
+    Route::post('/admin/resellers', [ResellerController::class, 'store'])->name('admin.resellers.store');
+    Route::get('/admin/resellers/{reseller}/edit', [ResellerController::class, 'edit'])->name('admin.resellers.edit');
+    Route::put('/admin/resellers/{reseller}', [ResellerController::class, 'update'])->name('admin.resellers.update');
+    Route::post('/admin/resellers/{reseller}/suspend', [ResellerController::class, 'suspend'])->name('admin.resellers.suspend');
+    Route::post('/admin/resellers/{reseller}/reactivate', [ResellerController::class, 'reactivate'])->name('admin.resellers.reactivate');
+    Route::post('/admin/resellers/{reseller}/password', [ResellerController::class, 'resetPassword'])->name('admin.resellers.password');
+    Route::delete('/admin/resellers/{reseller}', [ResellerController::class, 'destroy'])->name('admin.resellers.destroy');
+
     //Brand
     Route::get('/admin/brands', [AdminController::class, 'brands'])->name('admin.brands');
     Route::get('/admin/brand/add', [AdminController::class, 'add_brand'])->name('admin.brand.add');

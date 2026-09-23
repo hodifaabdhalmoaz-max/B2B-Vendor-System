@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthAdmin
@@ -17,17 +16,14 @@ class AuthAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check()){
-            if(Auth::user()->utype==='ADM'){
+        if (Auth::check()) {
+            if (Auth::user()->isAdmin() && Auth::user()->is_active) {
                 return $next($request);
             }
-            else{
-                Session::flush();
-                return redirect()->route('login');
-            }
+
+            abort(403);
         }
-        else{
-            return redirect()->route('login');
-        }
+
+        return redirect()->route('login');
     }
 }

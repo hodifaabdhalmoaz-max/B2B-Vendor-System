@@ -6,11 +6,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    public const TYPE_ADMIN = 'ADM';
+
+    public const TYPE_USER = 'USR';
+
+    public const TYPE_RESELLER = 'RES';
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +26,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'mobile',
         'password',
@@ -121,7 +129,30 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        return $this->utype === 'ADM';
+        return $this->utype === self::TYPE_ADMIN;
+    }
+
+    /**
+     * Check if user is an approved reseller account type.
+     */
+    public function isReseller(): bool
+    {
+        return $this->utype === self::TYPE_RESELLER;
+    }
+
+    public function hasActiveResellerProfile(): bool
+    {
+        return $this->resellerProfile?->isActive() === true;
+    }
+
+    public function setUsernameAttribute(?string $value): void
+    {
+        $this->attributes['username'] = filled($value) ? Str::lower(trim($value)) : null;
+    }
+
+    public function setEmailAttribute(?string $value): void
+    {
+        $this->attributes['email'] = filled($value) ? Str::lower(trim($value)) : null;
     }
 
     /**

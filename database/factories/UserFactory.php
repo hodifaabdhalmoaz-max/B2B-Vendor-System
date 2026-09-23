@@ -31,6 +31,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'mobile' => fake()->phoneNumber(),
             'utype' => 'USR',
+            'is_active' => true,
         ];
     }
 

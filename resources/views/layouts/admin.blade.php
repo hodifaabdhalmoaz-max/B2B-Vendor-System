@@ -249,6 +249,13 @@
                                 </li>
 
                                 <li class="menu-item">
+                                    <a href="{{ route('admin.resellers.index') }}" class="{{ request()->routeIs('admin.resellers.*') ? 'active' : '' }}">
+                                        <div class="icon"><i class="icon-user"></i></div>
+                                        <div class="text">{{ __('Resellers') }}</div>
+                                    </a>
+                                </li>
+
+                                <li class="menu-item">
                                     <a href="settings.html" class="">
                                         <div class="icon"><i class="icon-settings"></i></div>
                                         <div class="text">الإعدادات</div>

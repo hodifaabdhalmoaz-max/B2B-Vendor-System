@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -45,10 +50,64 @@ class LoginController extends Controller
      * @param  mixed  $user
      * @return mixed
      */
-    protected function authenticated(\Illuminate\Http\Request $request, $user)
+    public function username(): string
     {
-        if ($user->utype === 'ADM') {
+        return 'login';
+    }
+
+    protected function validateLogin(Request $request): void
+    {
+        $request->validate([
+            $this->username() => ['required', 'string'],
+            'password' => ['required', 'string'],
+        ]);
+    }
+
+    protected function attemptLogin(Request $request): bool
+    {
+        $user = $this->findUserByLogin((string) $request->input($this->username()));
+
+        if (! $user || ! $user->is_active || ! Hash::check($request->input('password'), $user->password)) {
+            return false;
+        }
+
+        if ($user->isReseller() && ! $user->loadMissing('resellerProfile')->hasActiveResellerProfile()) {
+            return false;
+        }
+
+        $this->guard()->login($user, $request->boolean('remember'));
+
+        $user->recordSuccessfulLogin($request->ip());
+
+        return true;
+    }
+
+    protected function findUserByLogin(string $identifier): ?User
+    {
+        $identifier = Str::lower(trim($identifier));
+
+        return User::query()
+            ->where('username', $identifier)
+            ->orWhere('email', $identifier)
+            ->orWhere('mobile', $identifier)
+            ->first();
+    }
+
+    protected function sendFailedLoginResponse(Request $request): never
+    {
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ]);
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->isAdmin()) {
             return redirect('/admin');
+        }
+
+        if ($user->isReseller()) {
+            return redirect()->route('reseller.index');
         }
 
         return redirect('/');

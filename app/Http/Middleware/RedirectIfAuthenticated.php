@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,12 +21,16 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 $user = Auth::guard($guard)->user();
-                
+
                 // إذا كان المستخدم مدير، توجيه إلى لوحة التحكم
-                if ($user->utype === 'ADM') {
+                if ($user->isAdmin()) {
                     return redirect('/admin');
                 }
-                
+
+                if ($user->isReseller() && $user->loadMissing('resellerProfile')->hasActiveResellerProfile()) {
+                    return redirect()->route('reseller.index');
+                }
+
                 // وإلا توجيه إلى الصفحة الرئيسية
                 return redirect('/');
             }

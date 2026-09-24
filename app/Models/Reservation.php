@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\DecimalMoney;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,6 +26,8 @@ class Reservation extends Model
 
     protected $fillable = [
         'reservation_number',
+        'idempotency_key',
+        'request_fingerprint',
         'reseller_profile_id',
         'status',
         'expires_at',
@@ -52,5 +55,21 @@ class Reservation extends Model
     public function reservationItems()
     {
         return $this->hasMany(ReservationItem::class);
+    }
+
+    public function getTotalAttribute(): string
+    {
+        $items = $this->relationLoaded('reservationItems') ? $this->reservationItems : $this->reservationItems()->get();
+        $cents = 0;
+
+        foreach ($items as $item) {
+            $line = DecimalMoney::toCents($item->line_total);
+            if ($line > PHP_INT_MAX - $cents) {
+                throw new \OverflowException('Reservation total exceeds the supported range.');
+            }
+            $cents += $line;
+        }
+
+        return DecimalMoney::formatCents($cents);
     }
 }

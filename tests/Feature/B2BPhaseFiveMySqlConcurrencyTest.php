@@ -48,7 +48,9 @@ class B2BPhaseFiveMySqlConcurrencyTest extends TestCase
             // Two independent creation transactions compete for a second unit.
             $reservationVariant = $this->variant('MYSQL-RES');
             $profile = $this->profile();
-            $results = $this->race(['create', 'create'], $profile->id, (string) $reservationVariant->id);
+            $competitor = $this->profile();
+            $this->assertNotSame($profile->id, $competitor->id);
+            $results = $this->race(['create', 'create'], [$profile->id, $competitor->id], (string) $reservationVariant->id);
             $this->assertSame(1, collect($results)->where('ok', true)->count());
             $this->assertSame(1, collect($results)->where('ok', false)->count());
             $this->assertSame(1, Reservation::count());
@@ -95,14 +97,15 @@ class B2BPhaseFiveMySqlConcurrencyTest extends TestCase
         return ResellerProfile::create(['user_id' => $user->id, 'status' => ResellerProfile::STATUS_ACTIVE, 'reservation_enabled' => true, 'reservation_timeout_minutes' => 30]);
     }
 
-    private function race(array $operations, int $id, string $key): array
+    private function race(array $operations, int|array $id, string $key): array
     {
         $barrier = tempnam(sys_get_temp_dir(), 'b2b-race-');
         unlink($barrier);
         $workers = [];
         try {
             foreach ($operations as $index => $operation) {
-                $worker = new Process([PHP_BINARY, base_path('tests/Support/reservation_concurrency_worker.php'), $operation, (string) $id, $key, $barrier, (string) $index], base_path(), [
+                $workerId = is_array($id) ? $id[$index] : $id;
+                $worker = new Process([PHP_BINARY, base_path('tests/Support/reservation_concurrency_worker.php'), $operation, (string) $workerId, $key, $barrier, (string) $index], base_path(), [
                     'B2B_MYSQL_CONCURRENCY_DATABASE' => getenv('B2B_MYSQL_CONCURRENCY_DATABASE'),
                 ]);
                 $worker->setTimeout(30);

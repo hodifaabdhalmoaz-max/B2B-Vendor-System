@@ -1,29 +1,21 @@
-@extends('layouts.app')
-
+@extends('reseller.layout')
 @section('content')
-<main class="pt-90">
-    <section class="container py-5">
-        @if(session('status'))
-            <p class="alert alert-success">{{ session('status') }}</p>
-        @endif
-
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="p-4 border rounded bg-white">
-                    <h2 class="mb-4">{{ __('Reseller account') }}</h2>
-                    <p><strong>{{ __('Name') }}:</strong> {{ $user->name }}</p>
-                    <p><strong>{{ __('Username') }}:</strong> {{ $user->username }}</p>
-                    <p><strong>{{ __('Business name') }}:</strong> {{ $user->resellerProfile?->business_name ?: '-' }}</p>
-                    <p><strong>{{ __('Account status') }}:</strong> {{ $user->is_active ? __('Active') : __('Inactive') }}</p>
-                    <p><strong>{{ __('Business profile status') }}:</strong> {{ $user->resellerProfile?->status }}</p>
-
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button class="btn btn-primary" type="submit">{{ __('Logout') }}</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-</main>
+<h1 class="h3">{{ __('Reseller Portal') }}</h1>
+<form method="GET" action="{{ route('reseller.search') }}" class="d-flex gap-2 my-4">
+    <label for="dashboard-search" class="visually-hidden">{{ __('Search catalog') }}</label><input id="dashboard-search" class="form-control" name="q" maxlength="200" placeholder="{{ __('Search catalog') }}"><button class="btn btn-primary">{{ __('Search') }}</button>
+</form>
+<div class="row g-3 mb-4">
+    @foreach(['pending_review', 'confirmed', 'preparing', 'shipped', 'completed'] as $status)
+        <div class="col-6 col-md"><div class="portal-card"><span>@include('reseller.partials.status')</span><strong class="d-block h3 mt-2">{{ $statusCounts[$status] ?? 0 }}</strong></div></div>
+    @endforeach
+</div>
+@foreach(['recentProducts' => 'Recent products', 'offers' => 'Offers', 'popular' => 'Most requested'] as $collection => $heading)
+    <section class="mb-5"><h2 class="h4 mb-3">{{ __($heading) }}</h2><div class="row g-3">
+        @forelse($$collection as $product)<div class="col-12 col-sm-6 col-lg-4">@include('reseller.partials.product-card')</div>@empty<p>{{ __('No products found.') }}</p>@endforelse
+    </div></section>
+@endforeach
+<section><h2 class="h4">{{ __('Recent reservations') }}</h2>
+    @forelse($recentReservations as $reservation)@include('reseller.partials.reservation-card')@empty<p>{{ __('No reservations yet.') }}</p>@endforelse
+    <a class="btn btn-outline-secondary" href="{{ route('reseller.reservations.index') }}">{{ __('All reservations') }}</a>
+</section>
 @endsection

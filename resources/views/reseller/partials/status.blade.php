@@ -1,0 +1,1 @@
+{{ __(['pending_review' => 'Pending review', 'confirmed' => 'Confirmed', 'preparing' => 'Preparing', 'shipped' => 'Shipped', 'completed' => 'Completed', 'cancelled' => 'Cancelled', 'expired' => 'Expired'][$status] ?? $status) }}

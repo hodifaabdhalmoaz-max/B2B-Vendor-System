@@ -131,13 +131,29 @@ Route::middleware(['auth', 'smart.throttle:user_dashboard'])->group(function () 
 
 Route::prefix('reseller')
     ->name('reseller.')
-    ->middleware(['auth', 'reseller', 'smart.throttle:user_dashboard'])
+    ->middleware(['auth', 'reseller', \App\Http\Middleware\ResellerTranslations::class, 'smart.throttle:user_dashboard'])
     ->group(function () {
         Route::get('/password/change', [ResellerPasswordController::class, 'edit'])->name('password.edit');
         Route::post('/password/change', [ResellerPasswordController::class, 'update'])->name('password.update');
 
         Route::middleware('force.password.change')->group(function () {
             Route::get('/', ResellerDashboardController::class)->name('index');
+            Route::get('/catalog', [\App\Http\Controllers\Reseller\CatalogController::class, 'index'])->name('catalog');
+            Route::get('/search', [\App\Http\Controllers\Reseller\CatalogController::class, 'index'])->middleware('smart.throttle:search')->name('search');
+            Route::get('/products/{product}', [\App\Http\Controllers\Reseller\CatalogController::class, 'show'])->whereNumber('product')->name('products.show');
+            Route::get('/products/{product}/images/{image}', [\App\Http\Controllers\Reseller\CatalogController::class, 'download'])->whereNumber(['product', 'image'])->name('products.images.download');
+            Route::get('/cart', [\App\Http\Controllers\Reseller\ReservationCartController::class, 'index'])->name('cart.index');
+            Route::post('/cart', [\App\Http\Controllers\Reseller\ReservationCartController::class, 'store'])->name('cart.store');
+            Route::patch('/cart/{variant}', [\App\Http\Controllers\Reseller\ReservationCartController::class, 'update'])->whereNumber('variant')->name('cart.update');
+            Route::delete('/cart/{variant}', [\App\Http\Controllers\Reseller\ReservationCartController::class, 'destroy'])->whereNumber('variant')->name('cart.destroy');
+            Route::delete('/cart', [\App\Http\Controllers\Reseller\ReservationCartController::class, 'clear'])->name('cart.clear');
+            Route::post('/reservations', [\App\Http\Controllers\Reseller\ReservationController::class, 'store'])->name('reservations.store');
+            Route::get('/reservations', [\App\Http\Controllers\Reseller\ReservationController::class, 'index'])->name('reservations.index');
+            Route::get('/reservations/{reservation}', [\App\Http\Controllers\Reseller\ReservationController::class, 'show'])->whereNumber('reservation')->name('reservations.show');
+            Route::post('/reservations/{reservation}/cancel', [\App\Http\Controllers\Reseller\ReservationController::class, 'cancel'])->whereNumber('reservation')->name('reservations.cancel');
+            Route::get('/wishlist', [\App\Http\Controllers\Reseller\WishlistController::class, 'index'])->name('wishlist.index');
+            Route::post('/wishlist/{product}', [\App\Http\Controllers\Reseller\WishlistController::class, 'store'])->whereNumber('product')->name('wishlist.store');
+            Route::delete('/wishlist/{product}', [\App\Http\Controllers\Reseller\WishlistController::class, 'destroy'])->whereNumber('product')->name('wishlist.destroy');
         });
     });
 

@@ -1,0 +1,13 @@
+.reseller-portal{background:#fdfbf7;color:#343434;font-family:Tajawal,Cairo,system-ui,sans-serif;padding-bottom:90px}
+.reseller-portal .container{max-width:1120px}.portal-header{background:#fff;border-bottom:1px solid #eee}
+.portal-brand{font-size:1.25rem;font-weight:700;color:#343434}.portal-nav{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px}
+.portal-nav a{padding:12px 16px;white-space:nowrap;border-radius:12px;color:#343434}.portal-nav a[aria-current=page]{background:#d9f1f2}
+.portal-card{padding:20px;border:1px solid #eee;border-radius:20px;background:white;box-shadow:0 10px 30px rgba(0,0,0,.02);overflow-wrap:anywhere}
+.portal-card h3 a,.portal-card a{color:#343434}.portal-product-image{width:100%;height:auto;aspect-ratio:4/3;object-fit:contain;background:#fafafa;border-radius:14px}
+.portal-cart-image{object-fit:contain;border-radius:12px;margin-bottom:12px}.portal-price{font-size:1.2rem;font-weight:700}.portal-price span{font-size:.85rem}
+.reseller-portal .btn,.reseller-portal .form-control,.reseller-portal .form-select{min-height:44px;border-radius:12px}.reseller-portal input[type=number]{max-width:120px}
+.reseller-portal .btn-primary{background:#ff8c61;border-color:#ff8c61;color:#30231e}.reseller-portal .btn-primary:hover{background:#f47b50;border-color:#f47b50}
+.portal-cart-link{position:fixed;bottom:16px;inset-inline-end:16px;z-index:50;box-shadow:0 4px 18px #0002}.portal-badge{background:#d9f1f2;padding:6px 12px;border-radius:50px}
+.portal-description{white-space:pre-line;overflow-wrap:anywhere}.portal-card form{margin-bottom:0}.reseller-portal label{margin-bottom:6px}.reseller-portal h1{overflow-wrap:anywhere}
+.reseller-portal :focus-visible{outline:3px solid #287a80;outline-offset:3px}.reseller-portal nav[role=navigation] svg{max-width:24px;max-height:24px}
+@media(max-width:575px){.portal-card{padding:16px}.portal-nav a{padding:10px}.reseller-portal .container{padding-inline:16px}}

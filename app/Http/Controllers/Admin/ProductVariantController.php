@@ -16,28 +16,32 @@ class ProductVariantController extends Controller
 {
     public function __construct(private readonly ProductVariantService $productVariantService) {}
 
-    public function index(Product $product): View
-    {
-        $product->load([
-            'colors' => fn ($query) => $query->orderBy('order')->orderBy('name'),
-            'sizes' => fn ($query) => $query->orderBy('order')->orderBy('name'),
-            'variants.color',
-            'variants.size',
-            'variants.inventoryItem',
-        ]);
+   public function index(Product $product): View
+{
+    $product->load([
+        'colors' => fn ($query) => $query->orderBy('order')->orderBy('name'),
+        'sizes' => fn ($query) => $query->orderBy('order')->orderBy('name'),
+        'variants.color',
+        'variants.size',
+        'variants.inventoryItem',
+    ]);
 
-        $variants = $product->variants->sortBy([
-            ['color.name', 'asc'],
-            ['size.name', 'asc'],
-            ['sku', 'asc'],
-        ]);
+    $product->variants->each(
+        fn (ProductVariant $variant) => $variant->setRelation('product', $product)
+    );
 
-        return view('admin.product-variants.index', [
-            'product' => $product,
-            'variants' => $variants,
-            'candidateCombinations' => $this->productVariantService->candidateCombinations($product),
-        ]);
-    }
+    $variants = $product->variants->sortBy([
+        ['color.name', 'asc'],
+        ['size.name', 'asc'],
+        ['sku', 'asc'],
+    ]);
+
+    return view('admin.product-variants.index', [
+        'product' => $product,
+        'variants' => $variants,
+        'candidateCombinations' => $this->productVariantService->candidateCombinations($product),
+    ]);
+}
 
     public function create(Product $product): RedirectResponse
     {

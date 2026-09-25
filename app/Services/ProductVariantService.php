@@ -354,17 +354,29 @@ class ProductVariantService
     }
 
     private function guardIdentityChangeWithHistory(ProductVariant $variant): void
-    {
-        $inventory = $variant->inventoryItem;
+{
+    $variant->loadMissing('inventoryItem');
 
-        if ($variant->reservationItems()->exists()
-            || $variant->inventoryMovements()->exists()
-            || ($inventory && ((int) $inventory->stock_on_hand !== 0 || (int) $inventory->reserved_quantity !== 0))) {
-            throw ValidationException::withMessages([
-                'variant' => __('This variant has history or stock. Deactivate it and create a new variant for the new combination.'),
-            ]);
-        }
+    $inventory = $variant->inventoryItem;
+
+    if (
+        $variant->reservationItems()->exists()
+        || $variant->inventoryMovements()->exists()
+        || (
+            $inventory
+            && (
+                (int) $inventory->stock_on_hand !== 0
+                || (int) $inventory->reserved_quantity !== 0
+            )
+        )
+    ) {
+        throw ValidationException::withMessages([
+            'variant' => __(
+                'This variant has history or stock. Deactivate it and create a new variant for the new combination.'
+            ),
+        ]);
     }
+}
 
     private function validateEffectivePrice(Product $product, string $priceAdjustment): void
     {

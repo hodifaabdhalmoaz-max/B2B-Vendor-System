@@ -161,7 +161,17 @@ Route::prefix('reseller')
 // Admin — very generous limit (200/min base × 5 admin multiplier = 1000/min)
 // Admins should never be rate-limited during normal operations
 // ═══════════════════════════════════════════════════════════
-Route::middleware(['auth', AuthAdmin::class, 'smart.throttle:admin'])->group(function () {
+Route::middleware(['auth', AuthAdmin::class, 'smart.throttle:admin', \App\Http\Middleware\AdminReservationTranslations::class])->group(function () {
+    Route::prefix('admin/b2b/reservations')->name('admin.b2b.reservations.')->controller(\App\Http\Controllers\Admin\B2BReservationController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{reservation}', 'show')->name('show');
+        Route::post('/{reservation}/confirm', 'confirm')->name('confirm');
+        Route::post('/{reservation}/preparing', 'preparing')->name('preparing');
+        Route::post('/{reservation}/ship', 'ship')->name('ship');
+        Route::post('/{reservation}/complete', 'complete')->name('complete');
+        Route::post('/{reservation}/cancel', 'cancel')->name('cancel');
+        Route::post('/{reservation}/expire', 'expire')->name('expire');
+    });
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 

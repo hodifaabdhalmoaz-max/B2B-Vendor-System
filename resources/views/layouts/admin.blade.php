@@ -249,6 +249,12 @@
                                 </li>
 
                                 <li class="menu-item">
+                                    <a href="{{ route('admin.b2b.reservations.index') }}" class="{{ request()->routeIs('admin.b2b.reservations.*') ? 'active' : '' }}">
+                                        <div class="icon"><i class="icon-file-text"></i></div>
+                                        <div class="text">{{ __('B2B Reservations') }}</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
                                     <a href="{{ route('admin.resellers.index') }}" class="{{ request()->routeIs('admin.resellers.*') ? 'active' : '' }}">
                                         <div class="icon"><i class="icon-user"></i></div>
                                         <div class="text">{{ __('Resellers') }}</div>

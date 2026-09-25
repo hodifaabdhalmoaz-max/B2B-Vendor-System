@@ -5,6 +5,9 @@
     <div class="main-content-wrap">
         <div class="flex items-center flex-wrap justify-between gap20 mb-27">
             <h3>{{ __('Edit reseller') }}</h3>
+            @if($reseller->resellerProfile)
+                <a class="tf-button style-1" href="{{ route('admin.b2b.reservations.index', ['reseller_profile_id' => $reseller->resellerProfile->id]) }}">{{ __('B2B Reservations') }}</a>
+            @endif
             <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                 <li><a href="{{ route('admin.index') }}"><div class="text-tiny">{{ __('Dashboard') }}</div></a></li>
                 <li><i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i></li>

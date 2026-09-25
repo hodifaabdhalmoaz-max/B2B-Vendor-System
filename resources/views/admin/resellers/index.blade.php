@@ -56,6 +56,9 @@
                                     <td>{{ $profile?->status ?: __('Missing') }}</td>
                                     <td>
                                         {{ $profile?->reservation_enabled ? __('Enabled') : __('Disabled') }}
+                                        @if($profile)
+                                            <br><a href="{{ route('admin.b2b.reservations.index', ['reseller_profile_id' => $profile->id]) }}">{{ __('B2B Reservations') }}</a>
+                                        @endif
                                         <br><span class="text-tiny">{{ $profile?->reservation_timeout_minutes ?: '-' }}</span>
                                     </td>
                                     <td>

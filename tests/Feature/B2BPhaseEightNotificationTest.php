@@ -27,6 +27,8 @@ class B2BPhaseEightNotificationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->assertSame('sqlite', DB::connection()->getDriverName());
+        $this->assertSame(':memory:', DB::connection()->getDatabaseName(), 'Fresh schema requires SQLite :memory:.');
         $this->artisan('migrate:fresh', ['--force' => true])->assertSuccessful();
     }
 

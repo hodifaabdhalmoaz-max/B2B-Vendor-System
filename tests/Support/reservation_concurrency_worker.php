@@ -13,7 +13,12 @@ use App\Services\InventoryService;
 use App\Services\ReservationService;
 use Illuminate\Support\Facades\DB;
 
-config(['database.connections.mysql.database' => getenv('B2B_MYSQL_CONCURRENCY_DATABASE')]);
+$database = getenv('B2B_MYSQL_CONCURRENCY_DATABASE') ?: '';
+if (getenv('B2B_MYSQL_CONCURRENCY_ALLOW_FRESH') !== '1' || (! str_ends_with($database, '_test') && ! str_ends_with($database, '_testing'))) {
+    fwrite(STDERR, "Explicit disposable database opt-in required.\n");
+    exit(2);
+}
+config(['database.connections.mysql.database' => $database, 'database.connections.mysql.url' => null]);
 DB::purge('mysql');
 DB::setDefaultConnection('mysql');
 
@@ -30,7 +35,7 @@ while (! file_exists($barrier)) {
 
 try {
     if ($operation === 'reserve') {
-        app(InventoryService::class)->reserve(ProductVariant::findOrFail((int) $id), 1, $key);
+        app(InventoryService::class)->reserve(ProductVariant::findOrFail((int) $id), 1, $key.'-'.$index);
         $result = ['ok' => true];
     } elseif ($operation === 'create' || $operation === 'create_same_key') {
         $reservation = app(ReservationService::class)->create(

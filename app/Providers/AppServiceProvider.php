@@ -2,14 +2,14 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\View;
-use App\Models\Product;
-use App\Models\Category;
 use App\Models\Brand;
-use App\Observers\ProductObserver;
-use App\Observers\CategoryObserver;
+use App\Models\Category;
+use App\Models\Product;
 use App\Observers\BrandObserver;
+use App\Observers\CategoryObserver;
+use App\Observers\ProductObserver;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Prevent lazy loading in local development to avoid N+1 query problems
-        \Illuminate\Database\Eloquent\Model::preventLazyLoading(!app()->isProduction());
+        \Illuminate\Database\Eloquent\Model::preventLazyLoading(! app()->isProduction());
 
         // Register cache-busting observers
         Product::observe(ProductObserver::class);
@@ -49,6 +49,11 @@ class AppServiceProvider extends ServiceProvider
             $view->with('commonTrans', \App\Helpers\TranslationHelper::getCommonTranslations());
             $view->with('isRtl', \App\Helpers\TranslationHelper::isRtl());
             $view->with('direction', \App\Helpers\TranslationHelper::getDirection());
+        });
+
+        View::composer('reseller.layout', function ($view) {
+            $user = request()->user();
+            $view->with('resellerUnreadCount', $user ? app(\App\Services\ResellerNotificationService::class)->unreadCount($user) : 0);
         });
 
         // Share categories and brands with header

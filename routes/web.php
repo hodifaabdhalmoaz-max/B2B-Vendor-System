@@ -138,6 +138,9 @@ Route::prefix('reseller')
 
         Route::middleware('force.password.change')->group(function () {
             Route::get('/', ResellerDashboardController::class)->name('index');
+            Route::get('/notifications', [\App\Http\Controllers\Reseller\ResellerNotificationController::class, 'index'])->name('notifications.index');
+            Route::post('/notifications/read-all', [\App\Http\Controllers\Reseller\ResellerNotificationController::class, 'readAll'])->name('notifications.read-all');
+            Route::post('/notifications/{notification}/read', [\App\Http\Controllers\Reseller\ResellerNotificationController::class, 'read'])->whereUuid('notification')->name('notifications.read');
             Route::get('/catalog', [\App\Http\Controllers\Reseller\CatalogController::class, 'index'])->name('catalog');
             Route::get('/search', [\App\Http\Controllers\Reseller\CatalogController::class, 'index'])->middleware('smart.throttle:search')->name('search');
             Route::get('/products/{product}', [\App\Http\Controllers\Reseller\CatalogController::class, 'show'])->whereNumber('product')->name('products.show');

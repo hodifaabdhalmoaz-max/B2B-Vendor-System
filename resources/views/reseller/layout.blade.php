@@ -18,8 +18,8 @@
             </div>
         </div>
         <nav class="container portal-nav" aria-label="{{ __('Reseller navigation') }}">
-            @foreach(['reseller.index' => 'Dashboard', 'reseller.catalog' => 'Catalog', 'reseller.reservations.index' => 'Reservations', 'reseller.wishlist.index' => 'Wishlist', 'reseller.cart.index' => 'Reservation cart'] as $routeName => $label)
-                <a href="{{ route($routeName) }}" @if(request()->routeIs($routeName)) aria-current="page" @endif>{{ __($label) }}</a>
+            @foreach(['reseller.index' => 'Dashboard', 'reseller.catalog' => 'Catalog', 'reseller.reservations.index' => 'Reservations', 'reseller.wishlist.index' => 'Wishlist', 'reseller.cart.index' => 'Reservation cart', 'reseller.notifications.index' => 'Notifications'] as $routeName => $label)
+                <a href="{{ route($routeName) }}" @if(request()->routeIs($routeName)) aria-current="page" @endif>{{ __($label) }}@if($routeName === 'reseller.notifications.index' && $resellerUnreadCount > 0) <span class="badge bg-primary" aria-label="{{ __('Unread') }}">{{ $resellerUnreadCount }}</span>@endif</a>
             @endforeach
         </nav>
     </header>

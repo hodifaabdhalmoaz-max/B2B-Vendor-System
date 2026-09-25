@@ -122,6 +122,8 @@ class ReservationService
                         ]);
                     }
 
+                    $this->emitLifecycle($reservation, 'created', $user->id);
+
                     return [$reservation, true];
                 });
 
@@ -186,6 +188,7 @@ class ReservationService
             $current->status = Reservation::STATUS_EXPIRED;
             $current->released_at = now();
             $current->save();
+            $this->emitLifecycle($current, $current->status, $actorUserId);
             $changed = true;
 
             return $current;
@@ -200,7 +203,7 @@ class ReservationService
     private function transition(Reservation|int $reservation, string $from, string $to, string $action, ?int $actorUserId, ?string $timestamp = null): Reservation
     {
         $changed = false;
-        $current = DB::transaction(function () use ($reservation, $from, $to, $timestamp, &$changed): Reservation {
+        $current = DB::transaction(function () use ($reservation, $from, $to, $timestamp, $actorUserId, &$changed): Reservation {
             $current = $this->locked($reservation);
             if ($current->status === $to) {
                 return $current;
@@ -213,6 +216,7 @@ class ReservationService
                 $current->{$timestamp} = now();
             }
             $current->save();
+            $this->emitLifecycle($current, $current->status, $actorUserId);
             $changed = true;
 
             return $current;
@@ -242,6 +246,7 @@ class ReservationService
                 $current->released_at = now();
             }
             $current->save();
+            $this->emitLifecycle($current, $current->status, $actorUserId);
             $changed = true;
 
             return $current;
@@ -251,6 +256,39 @@ class ReservationService
         }
 
         return $current;
+    }
+
+    /** Register inside the transaction so outer rollbacks discard the callback too. */
+    private function emitLifecycle(Reservation $reservation, string $name, ?int $actorUserId): void
+    {
+        $class = match ($name) {
+            'created' => \App\Events\B2B\ReservationCreated::class,
+            'confirmed' => \App\Events\B2B\ReservationConfirmed::class,
+            'preparing' => \App\Events\B2B\ReservationPreparing::class,
+            'shipped' => \App\Events\B2B\ReservationShipped::class,
+            'completed' => \App\Events\B2B\ReservationCompleted::class,
+            'cancelled' => \App\Events\B2B\ReservationCancelled::class,
+            'expired' => \App\Events\B2B\ReservationExpired::class,
+        };
+        $event = new $class(
+            $reservation->id, $reservation->reseller_profile_id,
+            (int) $reservation->resellerProfile()->value('user_id'),
+            $reservation->reservation_number, $reservation->status, $actorUserId,
+            $reservation->updated_at->toDateTimeString(),
+        );
+        DB::afterCommit(static function () use ($event): void {
+            try {
+                event($event);
+            } catch (\Throwable $exception) {
+                // The business transaction is already committed. Never report its failure.
+                \Illuminate\Support\Facades\Log::error('B2B reservation notification delivery failed.', [
+                    'reservation_id' => $event->reservationId,
+                    'event_type' => $event->name(),
+                    'event_key' => $event->key(),
+                    'exception_class' => $exception::class,
+                ]);
+            }
+        });
     }
 
     private function mutateItems(Reservation $reservation, string $operation, ?int $actorUserId): void

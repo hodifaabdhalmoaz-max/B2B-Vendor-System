@@ -12,6 +12,13 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
+        \App\Events\B2B\ReservationCreated::class => [\App\Listeners\PersistResellerReservationNotification::class],
+        \App\Events\B2B\ReservationConfirmed::class => [\App\Listeners\PersistResellerReservationNotification::class],
+        \App\Events\B2B\ReservationPreparing::class => [\App\Listeners\PersistResellerReservationNotification::class],
+        \App\Events\B2B\ReservationShipped::class => [\App\Listeners\PersistResellerReservationNotification::class],
+        \App\Events\B2B\ReservationCompleted::class => [\App\Listeners\PersistResellerReservationNotification::class],
+        \App\Events\B2B\ReservationCancelled::class => [\App\Listeners\PersistResellerReservationNotification::class],
+        \App\Events\B2B\ReservationExpired::class => [\App\Listeners\PersistResellerReservationNotification::class],
         \App\Events\ProductViewed::class => [
             \App\Listeners\LogProductView::class,
         ],

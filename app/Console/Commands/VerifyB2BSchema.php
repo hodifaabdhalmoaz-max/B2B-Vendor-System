@@ -38,6 +38,13 @@ class VerifyB2BSchema extends Command
         'wishlists' => [['user_id', 'product_id']],
     ];
 
+    public const MONETARY_TYPES = [
+        // The original products migration uses Laravel's decimal(8,2) default.
+        'products' => ['regular_price' => 'decimal(8,2)', 'sale_price' => 'decimal(8,2)'],
+        'product_variants' => ['price_adjustment' => 'decimal(12,2)'],
+        'reservation_items' => ['unit_price' => 'decimal(12,2)'],
+    ];
+
     public const FOREIGN_KEYS = [
         'reseller_profiles' => ['user_id' => 'users'],
         'product_variants' => ['product_id' => 'products'],
@@ -83,14 +90,9 @@ class VerifyB2BSchema extends Command
                     $found = collect($indexes)->contains(fn ($index) => $index['unique'] && $index['columns'] === $key && ! in_array($index['name'], $partialIndexes, true));
                     $check($found, $table.'.'.implode('+', $key).' unique', 'MISSING INDEX');
                 }
-                foreach (match ($table) {
-                    'products' => ['regular_price', 'sale_price'],
-                    'product_variants' => ['price_adjustment'],
-                    'reservation_items' => ['unit_price'],
-                    default => [],
-                } as $column) {
+                foreach (self::MONETARY_TYPES[$table] ?? [] as $column => $expectedType) {
                     $type = $metadata->get($column)['type'] ?? '';
-                    $check($connection->getDriverName() === 'sqlite' ? $type === 'numeric' : $type === 'decimal(12,2)', "$table.$column monetary type", 'INCOMPATIBLE TYPE');
+                    $check($connection->getDriverName() === 'sqlite' ? $type === 'numeric' : $type === $expectedType, "$table.$column monetary type", 'INCOMPATIBLE TYPE');
                 }
                 if ($table === 'inventory_movements') {
                     foreach (['stock_delta', 'reserved_delta'] as $column) {

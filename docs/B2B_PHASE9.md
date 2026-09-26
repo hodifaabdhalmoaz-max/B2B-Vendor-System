@@ -38,7 +38,7 @@ Required uniqueness: reseller_profiles(user_id); product_variants(sku) and (prod
 
 Required restrictive FKs: reseller profile → user, variant → product, inventory item/movement → variant, reservation → reseller profile, reservation item → reservation and variant. Child product_id targets **products.id**, never products.product_id. Existing Phase 3 tests additionally exercise product deletion protection and variant deletion refusal for reservation history, ledger history and nonzero stock.
 
-Monetary columns listed above require MySQL decimal(12,2), or SQLite numeric affinity. Movement deltas require signed MySQL bigint or SQLite integer. SQLite does not prove MySQL precision enforcement or lock behavior. This is a focused schema contract, not an exhaustive database/data-integrity analyzer; it does not certify every legacy field, CHECK constraint, trigger, collation or production query plan.
+The monetary contract matches the canonical migrations exactly: `products.regular_price` and `products.sale_price` require MySQL `decimal(8,2)` (the Laravel 11 default used by `2024_09_28_145026_create_products_table.php`); `product_variants.price_adjustment` and `reservation_items.unit_price` require `decimal(12,2)`. `VerifyB2BSchema::MONETARY_TYPES` records these per-column expectations and checks both precision and scale. SQLite retains its numeric-affinity check because it does not preserve decimal precision/scale metadata. Movement deltas require signed MySQL bigint or SQLite integer. SQLite does not prove MySQL precision enforcement or lock behavior. This is a focused schema contract, not an exhaustive database/data-integrity analyzer; it does not certify every legacy field, CHECK constraint, trigger, collation or production query plan.
 
 ## Migrations and local runtime
 
@@ -122,7 +122,11 @@ This deliberately destroys/rebuilds that named test database's tables. Do not su
 
 ## Validation and remaining debt
 
-Required combined suite: **149 passed, 2 skipped, 1,696 assertions**. Includes all 12 Phase 9 tests, Phases 1–8, AuthenticationHardening, MessageCenter and the opt-in MySQL gate. Additional ProductVariantSelectionTest, ProductServiceTest and Unit/ProductTest: **18 passed, 84 assertions**.
+Initial Phase 9 combined suite: **149 passed, 2 skipped, 1,696 assertions**. Includes the original 12 Phase 9 tests, Phases 1–8, AuthenticationHardening, MessageCenter and the opt-in MySQL gate. Additional ProductVariantSelectionTest, ProductServiceTest and Unit/ProductTest: **18 passed, 84 assertions**.
+
+Monetary-verifier correctness patch based on `74189d0091741cd749ab91696190117f41b0b8ff`: corrected the overly strict product-price expectation to the canonical `decimal(8,2)`, while keeping the two B2B monetary columns at `decimal(12,2)`. No historical migration, database precision, or ordinary local database was changed. The added command-level regression supplies controlled MySQL introspection metadata: the canonical four-column contract passes, and eight cases with incorrect precision or scale fail on the affected column. Existing fresh SQLite verification still passes with numeric affinity. These metadata tests do not replace the unexecuted real MySQL gate.
+
+Patch validation: **168 passed, 1 skipped, 1,829 assertions**, combining all requested Phase 1–9, authentication and MessageCenter suites with ProductVariantSelectionTest, ProductServiceTest and Unit/ProductTest. Phase 9 now has 13 tests. The skip is Phase 4's SQLite concurrency reminder; the separate opt-in MySQL gate was not included in this patch run. Pint on both changed PHP files and git diff --check passed. No Blade or translation files changed, so no additional compilation or translation validation was needed.
 
 Known skipped tests: Phase 4's SQLite concurrency reminder and Phase 5's opt-in MySQL gate. Existing PHPUnit doc-comment deprecations remain.
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Console\Commands\VerifyB2BSchema;
 use App\Models\Color;
 use App\Models\InventoryMovement;
 use App\Models\Product;
@@ -72,6 +73,76 @@ class B2BPhaseNineStabilizationTest extends TestCase
         }
         DB::disableQueryLog();
         $this->artisan('migrate:status')->assertSuccessful();
+    }
+
+    public function test_mysql_monetary_contract_accepts_canonical_types_and_rejects_wrong_precision_or_scale(): void
+    {
+        // Controlled MySQL introspection metadata; this does not claim a real MySQL run.
+        $sqlite = DB::connection();
+        $schema = $sqlite->getSchemaBuilder();
+        $canonical = [
+            'products' => ['regular_price' => 'decimal(8,2)', 'sale_price' => 'decimal(8,2)'],
+            'product_variants' => ['price_adjustment' => 'decimal(12,2)'],
+            'reservation_items' => ['unit_price' => 'decimal(12,2)'],
+        ];
+        $metadata = [];
+        foreach (array_keys(VerifyB2BSchema::COLUMNS) as $table) {
+            $metadata[$table] = $schema->getColumns($table);
+            foreach ($metadata[$table] as &$column) {
+                if (isset($canonical[$table][$column['name']])) {
+                    $column['type'] = $canonical[$table][$column['name']];
+                } elseif ($table === 'inventory_movements' && in_array($column['name'], ['stock_delta', 'reserved_delta'], true)) {
+                    $column['type'] = 'bigint';
+                }
+            }
+            unset($column);
+        }
+        $cases = [[null, null, null]];
+        foreach ($canonical as $table => $columns) {
+            foreach ($columns as $column => $type) {
+                $cases[] = [$table, $column, $type === 'decimal(8,2)' ? 'decimal(12,2)' : 'decimal(8,2)'];
+                $cases[] = [$table, $column, str_replace(',2)', ',3)', $type)];
+            }
+        }
+        $manager = DB::getFacadeRoot();
+        $this->withoutMockingConsoleOutput();
+        try {
+            foreach ($cases as [$changedTable, $changedColumn, $changedType]) {
+                $columns = $metadata;
+                if ($changedTable !== null) {
+                    foreach ($columns[$changedTable] as &$column) {
+                        if ($column['name'] === $changedColumn) {
+                            $column['type'] = $changedType;
+                        }
+                    }
+                    unset($column);
+                }
+                $inspection = \Mockery::mock(\Illuminate\Database\Schema\Builder::class);
+                foreach (['hasTable', 'getIndexes', 'getForeignKeys', 'hasColumns'] as $method) {
+                    $inspection->shouldReceive($method)->andReturnUsing(fn (...$args) => $schema->$method(...$args));
+                }
+                $inspection->shouldReceive('getColumns')->andReturnUsing(fn ($table) => $columns[$table]);
+                $connection = \Mockery::mock(\Illuminate\Database\Connection::class);
+                $connection->shouldReceive('getDriverName')->andReturn('mysql');
+                $connection->shouldReceive('getSchemaBuilder')->andReturn($inspection);
+                $connection->shouldReceive('table')->with('migrations')->andReturnUsing(fn () => $sqlite->table('migrations'));
+                $database = \Mockery::mock(\Illuminate\Database\DatabaseManager::class);
+                $database->shouldReceive('connection')->andReturn($connection);
+                DB::swap($database);
+                $output = new \Symfony\Component\Console\Output\BufferedOutput;
+                $status = Artisan::call('b2b:verify-schema', [], $output);
+                $text = $output->fetch();
+                $this->assertSame($changedTable === null ? 0 : 1, $status, $text);
+                foreach ($canonical as $table => $expectedColumns) {
+                    foreach (array_keys($expectedColumns) as $column) {
+                        $label = $table === $changedTable && $column === $changedColumn ? 'INCOMPATIBLE TYPE' : 'OK';
+                        $this->assertStringContainsString("[$label] $table.$column monetary type", $text);
+                    }
+                }
+            }
+        } finally {
+            DB::swap($manager);
+        }
     }
 
     public function test_recorded_migration_with_missing_balance_column_is_drift_not_repaired(): void
